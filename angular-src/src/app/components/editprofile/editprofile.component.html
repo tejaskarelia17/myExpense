@@ -1,0 +1,54 @@
+<div *ngIf="user">
+  <app-navbar [user]="user"></app-navbar>
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Doctor Profile</h4> </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+          <a class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Done</a>
+          <ol class="breadcrumb">
+            <li><a href="#">Hospital</a></li>
+            <li class="active">Doctor Profile</li>
+          </ol>
+        </div>
+      </div>
+      <!-- /.row -->
+      <!-- .row -->
+      <div class="row">
+        <div class="col-md-4 col-xs-12">
+          <div class="white-box">
+            <div class="user-bg"> <img width="100%" alt="user" src="./assets/plugins/images/users/d1.jpg"> </div>
+            <div class="user-btm-box">
+              <!-- .row -->
+              <div class="row text-center m-t-10">
+                <div class="col-md-12 b-r"><strong>Name</strong>
+                  <p>{{user.name}}</p>
+                </div>
+              </div>
+              <!-- /.row -->
+              <hr>
+              <!-- .row -->
+              <div class="row text-center m-t-10">
+                <div class="col-md-12 b-r"><strong>Email ID</strong>
+                  <p>{{user.email}}</p>
+                </div>
+              </div>
+              <!-- /.row -->
+              <hr>
+              <!-- .row -->
+              <div class="row text-center m-t-10">
+                <div class="col-md-12"><strong>Monthly Budget</strong>
+                  <p class="text-danger m-t-20">$<span></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!user">
+  Unauthorized!
+</div>

@@ -1,0 +1,22 @@
+{
+  "name": "myexpense",
+  "version": "1.0.0",
+  "description": "A simple web app that is helpful in managing and tracking day to day expense of the user.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "^1.18.2",
+    "cors": "*",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "mongoose": "^4.10.8",
+    "passport": "^0.4.0",
+    "passport-jwt": "*"
+  },
+  "author": "Tejas Karelia",
+  "license": "ISC"
+}
