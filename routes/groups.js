@@ -30,6 +30,7 @@ router.post('/addgroup', function (req, res) {
         user_id: req.body.user_id,
         date: new Date()
     });
+    console.log(newGroup);
     newGroup.save((err, groups) => {
         if(err){
             res.json({success: false, msg:'Failed to add Group'});

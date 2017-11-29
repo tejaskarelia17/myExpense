@@ -1,0 +1,69 @@
+<div>
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Add Group</h4> </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+          <ol class="breadcrumb">
+            <li><a href="index.html">myExpense</a></li>
+            <li class="active">Add Group</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="white-box">
+            <h3 class="box-title">Add Group</h3>
+            <form (submit)="addGroup()" class="form-material form-horizontal">
+              <div class="form-group">
+                <label class="col-md-12">Name
+                </label>
+                <div class="col-md-12">
+                  <input type="text" [(ngModel)]="name" name="name" class="form-control" placeholder="Enter Group Name"> </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-12">Description</label>
+                <div class="col-md-12">
+                  <textarea [(ngModel)]="description" name="description" class="form-control" rows="3" placeholder="Enter Description"></textarea>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
+              <button type="reset" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="groups">
+        <div class="col-sm-12">
+          <div class="white-box">
+            <h3 class="box-title">List Groups</h3>
+            <div class="col-sm-12">
+              <div class="white-box">
+                <div class="table-responsive">
+                  <table id="myTable" class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th data-orderable="false"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let group of groups">
+                      <td>{{group.name}}</td>
+                      <td>{{group.description}}</td>
+                      <th><input type="button"  (click)="deleteGroup(group._id)" value="Delete" class="btn btn-danger"></th>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

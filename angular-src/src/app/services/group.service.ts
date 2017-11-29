@@ -11,6 +11,7 @@ export class GroupService {
     private http: Http
   ) { }
 
+  //List Groups
   getGroupsForUser(){
     this.loadUserId();
     const userId = this.user_id;
@@ -18,20 +19,20 @@ export class GroupService {
       .map(res => res.json());
   }
 
-  //Add Transactions
-  addTransactions(newTransaction){
+  //Add Groups
+  addGroups(newGroup){
     this.loadUserId();
-    newTransaction.user_id = this.user_id;
+    newGroup.user_id = this.user_id;
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.post('http://localhost:3000/transactions/addtransaction', newTransaction, {headers: headers})
+    return this.http.post('http://localhost:3000/groups/addgroup', newGroup, {headers: headers})
       .map(res => res.json());
   }
 
   //Delete Transaction
-  deleteTransaction(id){
+  deleteGroup(id){
     if(confirm("Are you sure to delete "+id)){
-      return this.http.delete('http://localhost:3000/transactions/transaction/'+id)
+      return this.http.delete('http://localhost:3000/groups/group/'+id)
         .map(res => res.json());
     }
   }

@@ -1,0 +1,85 @@
+<div>
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Add Bill</h4> </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+          <ol class="breadcrumb">
+            <li><a href="index.html">myExpense</a></li>
+            <li class="active">Add Bill</li>
+          </ol>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="white-box">
+            <h3 class="box-title">Add Bill</h3>
+            <form (submit)="addTransaction()" class="form-material form-horizontal">
+              <div class="form-group">
+                <label class="col-md-12">Name
+                </label>
+                <div class="col-md-12">
+                  <input type="text" [(ngModel)]="name" name="name" class="form-control" placeholder="Enter Expense Name"> </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-12">Amount <i class="fa fa-usd"></i>
+                </label>
+                <div class="col-md-12">
+                  <input type="number" [(ngModel)]="amount" name="amount" class="form-control" placeholder="Enter Expense Amount">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-12">Group</label>
+                <div class="col-sm-12">
+                  <select [(ngModel)]="selectedGroup" name="selectedGroup" class="form-control">
+                    <option disabled>--Select--</option>
+                    <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-12">Description</label>
+                <div class="col-md-12">
+                  <textarea [(ngModel)]="description" name="description" class="form-control" rows="3" placeholder="Enter Description"></textarea>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
+              <button type="reset" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="white-box">
+            <h3 class="box-title">Recent Transactions</h3>
+                  <div class="table-responsive">
+                    <table id="myTable" class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Group</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <!--<th data-orderable="false"></th>-->
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let transaction of transactions; let i =index">
+                        <td>{{transaction.name}}</td>
+                        <td>{{transaction.description}}</td>
+                        <td>{{transaction.group_name}}</td>
+                        <td>$ <span>{{transaction.amount}}</span></td>
+                        <td>{{ transaction.date | date:'mediumDate' }}</td>
+                        <!--<th><input type="button"  (click)="deleteGroup(group._id)" value="Delete" class="btn btn-danger"></th>-->
+                      </tr>
+                      </tbody>
+                    </table>
+                    <a href="#" [routerLink]="['/transactions']">Check all the transactions</a>
+                  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

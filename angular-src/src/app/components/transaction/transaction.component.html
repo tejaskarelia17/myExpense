@@ -7,7 +7,7 @@
         <h4 class="page-title">Recent Activity</h4> </div>
       <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
         <ol class="breadcrumb">
-          <li><a href="index.html">myExpense</a></li>
+          <li><a href="#" [routerLink]="['/dashboard']">myExpense</a></li>
           <li class="active">Recent Activity</li>
         </ol>
       </div>
@@ -46,28 +46,6 @@
     </div>
     <!-- /.row -->
   </div>
-<div class="container">
-  <form (submit)="addTransaction()">
-    <div class="col-md-3">
-      <input type="text" [(ngModel)]="name" name="name" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <input type="text" [(ngModel)]="description" name="description" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <input type="number" [(ngModel)]="amount" name="amount" class="form-control">
-    </div>
-    <div class="col-md-3">
-      <select [(ngModel)]="selectedGroup" name="selectedGroup" class="form-control">
-        <option disabled>--Select--</option>
-        <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
-      </select>
-    </div>
-    <div class="col-md-3">
-      <input type="submit" class="btn btn-primary" value="Add Transaction">
-    </div>
-  </form>
-</div>
 <hr>
 </div>
 </div>

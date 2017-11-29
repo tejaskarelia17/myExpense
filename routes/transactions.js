@@ -19,7 +19,7 @@ router.get('/transactions/:userId', function (req, res) {
     //console.log("from transaction.js: "+req.params.userId);
     Transaction.find({"user_id": req.params.userId}, function(err, transactions){
         res.json(transactions);
-    })
+    }).sort({"date": -1}).limit(7)
 });
 
 

@@ -20,6 +20,8 @@ import { AuthService } from './services/auth.service';
 import { GroupService } from './services/group.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { TransactionService } from './services/transaction.service';
+import { AddBillComponent } from './components/add-bill/add-bill.component';
+import { AddGroupComponent } from './components/add-group/add-group.component';
 
 
 const appRoutes: Routes = [
@@ -29,8 +31,10 @@ const appRoutes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'editprofile', component: EditprofileComponent},
-  {path: 'transactions', component: TransactionComponent}
-]
+  {path: 'transactions', component: TransactionComponent},
+  {path: 'addbill', component: AddBillComponent},
+  {path: 'addgroup', component: AddGroupComponent}
+];
 
 @NgModule({
   declarations: [
@@ -43,7 +47,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     SearchComponent,
     EditprofileComponent,
-    TransactionComponent
+    TransactionComponent,
+    AddBillComponent,
+    AddGroupComponent
   ],
   imports: [
     BrowserModule,
