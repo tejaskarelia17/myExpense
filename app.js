@@ -28,6 +28,7 @@ const app = express();
 //Routes
 const users = require('./routes/users');
 const transactions = require('./routes/transactions');
+const groups = require('./routes/groups');
 
 //Port Number for server
 const port = 3000;
@@ -55,6 +56,8 @@ app.get('/', (req, res) => {
 //Express Routing
 app.use('/users', users);
 app.use('/transactions', transactions);
+app.use('/groups', groups);
+
 //Starting Server
 app.listen(port, () => {
     console.log('Server started on port '+port);

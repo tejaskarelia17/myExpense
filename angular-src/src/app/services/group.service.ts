@@ -1,26 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { TransactionSchema } from './transactionSchema';
+import { GroupSchema } from './groupSchema';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class TransactionService {
+export class GroupService {
   user_id: String;
 
   constructor(
     private http: Http
   ) { }
 
-  //Retreive Transactions
-  // getTransactions(){
-  //   return this.http.get('http://localhost:3000/transactions/transactions')
-  //     .map(res => res.json());
-  // }
-
-  getTransactionsForUser(){
+  getGroupsForUser(){
     this.loadUserId();
     const userId = this.user_id;
-    return this.http.get('http://localhost:3000/transactions/transactions/'+userId)
+    return this.http.get('http://localhost:3000/groups/listgroups/'+userId)
       .map(res => res.json());
   }
 

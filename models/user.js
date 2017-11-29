@@ -16,7 +16,8 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     setBudget :{
-        type: Number
+        type: Number,
+        default: 100
     },
     userProfilePic : {
         type: String

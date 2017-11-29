@@ -42,10 +42,7 @@
       <li class="dropdown">
         <a href="javascript:void(0);" class="dropdown-toggle waves-effect" data-toggle="dropdown"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Groups </span></a>
         <ul class="dropdown-menu dropdown-user pull-right animated fadeInUp">
-          <li> <a href="#">Group 1</a> </li>
-          <li> <a href="#">Group 2</a> </li>
-          <li> <a href="#">Group 3</a> </li>
-          <li> <a href="#">Group 4</a> </li>
+          <li *ngFor="let group of groups"> <a href="#">{{group.name}}</a></li>
         </ul>
       </li>
       <li><a (click)="onLogoutClick()" href="#" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>

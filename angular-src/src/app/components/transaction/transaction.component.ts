@@ -2,19 +2,23 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TransactionService } from './../../services/transaction.service';
 import { TransactionSchema } from './../../services/transactionSchema';
 import { AuthService } from './../../services/auth.service';
+import { GroupService } from './../../services/group.service';
+import { GroupSchema } from './../../services/groupSchema';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.css'],
-  providers: [TransactionService, AuthService]
+  providers: [TransactionService, AuthService, GroupService]
 })
 export class TransactionComponent implements OnInit {
   //@Input user: any;
   user: Object;
-
+  groups: GroupSchema[];
+  group: GroupSchema;
   transactions: TransactionSchema[];
   transaction: TransactionSchema;
+  selectedGroup: String;
   name : String;
   description: String;
   amount: Number;
@@ -22,14 +26,16 @@ export class TransactionComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private groupService: GroupService
   ) { }
 
   addTransaction(){
     const newTransaction = {
       name: this.name,
       description: this.description,
-      amount: this.amount
+      amount: this.amount,
+      group_name: this.selectedGroup
     };
     this.transactionService.addTransactions(newTransaction)
       .subscribe(transaction => {
@@ -62,6 +68,8 @@ export class TransactionComponent implements OnInit {
   ngOnInit() {
     this.transactionService.getTransactionsForUser()
       .subscribe(transactions => this.transactions = transactions);
+    this.groupService.getGroupsForUser()
+      .subscribe(groups => this.groups = groups);
     this.authService.getDashboard().subscribe(dashboard => {
         this.user = dashboard.user;
         console.log(this.user);
@@ -70,5 +78,6 @@ export class TransactionComponent implements OnInit {
         console.log(err);
         return false;
       });
+
   }
 }

@@ -1,11 +1,11 @@
 /**
- * Created by tejaskarelia on 11/19/17.
+ * Created by tejaskarelia on 11/28/17.
  */
 const mongoose = require('mongoose');
 const config = require('../config/database');
 
 //User Schema
-const TransactionSchema = mongoose.Schema({
+const GroupsSchema = mongoose.Schema({
     name : {
         type: String,
         required: true
@@ -14,15 +14,7 @@ const TransactionSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    amount : {
-        type: Number,
-        required: true
-    },
     user_id : {
-        type: String,
-        required: true
-    },
-    group_name : {
         type: String,
         required: true
     },
@@ -31,5 +23,5 @@ const TransactionSchema = mongoose.Schema({
     }
 });
 
-const Transaction = module.exports = mongoose.model('Transaction', TransactionSchema);
+const Groups = module.exports = mongoose.model('Groups', GroupsSchema);
 

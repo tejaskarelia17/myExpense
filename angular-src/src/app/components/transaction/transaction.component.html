@@ -24,6 +24,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Amount</th>
+                <th>Group</th>
                 <th>Date</th>
                 <th data-orderable="false"></th>
               </tr>
@@ -33,6 +34,7 @@
                 <td>{{transaction.name}}</td>
                 <td>{{transaction.description}}</td>
                 <td>$ <span>{{transaction.amount}}</span></td>
+                <td>{{transaction.group_name}}</td>
                 <td>{{ transaction.date | date:'mediumDate' }}</td>
                 <th><input type="button"  (click)="deleteTransaction(transaction._id)" value="Delete" class="btn btn-danger"></th>
               </tr>
@@ -54,6 +56,12 @@
     </div>
     <div class="col-md-3">
       <input type="number" [(ngModel)]="amount" name="amount" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <select [(ngModel)]="selectedGroup" name="selectedGroup" class="form-control">
+        <option disabled>--Select--</option>
+        <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+      </select>
     </div>
     <div class="col-md-3">
       <input type="submit" class="btn btn-primary" value="Add Transaction">

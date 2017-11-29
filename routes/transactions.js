@@ -1,9 +1,6 @@
 /**
  * Created by tejaskarelia on 11/20/17.
  */
-/**
- * Created by tejaskarelia on 11/15/17.
- */
 const express = require('express');
 const router = express.Router();
 
@@ -34,13 +31,14 @@ router.post('/addtransaction', function (req, res) {
         description: req.body.description,
         amount: req.body.amount,
         user_id: req.body.user_id,
+        group_name: req.body.group_name,
         date: new Date()
     });
     newTransaction.save((err, transaction) => {
         if(err){
             res.json({success: false, msg:'Failed to add transaction'});
         } else {
-            res.json({success: true, msg:'Transaction added successfully'});
+            res.json({success: true, msg:' Transaction added successfully'});
         }
     });
 });

@@ -17,6 +17,7 @@ import { TransactionComponent } from './components/transaction/transaction.compo
 
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
+import { GroupService } from './services/group.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { TransactionService } from './services/transaction.service';
 
@@ -51,7 +52,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [ValidateService,AuthService,TransactionService],
+  providers: [ValidateService,AuthService,TransactionService,GroupService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
