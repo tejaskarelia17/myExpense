@@ -89,7 +89,7 @@ router.get('/transactions', function (req, res) {
 
 
 //Add Transactions
-router.post('/addtransaction', function (req, res) {
+router.post('/addtransaction', passport.authenticate('jwt', { session: false }), function (req, res) {
 
     let newTransaction = new Transaction({
         name: req.body.name,
@@ -107,7 +107,7 @@ router.post('/addtransaction', function (req, res) {
 });
 
 //Delete Transactions
-router.delete('/transaction/:id', function (req, res) {
+router.delete('/transaction/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
     Transaction.remove({_id: req.params.id}, function (err, result) {
         if(err) {
             res.json({success: false, msg:'Failed to delete transaction'});

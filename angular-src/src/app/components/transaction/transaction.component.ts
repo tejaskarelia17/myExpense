@@ -4,6 +4,7 @@ import { TransactionSchema } from './../../services/transactionSchema';
 import { AuthService } from './../../services/auth.service';
 import { GroupService } from './../../services/group.service';
 import { GroupSchema } from './../../services/groupSchema';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-transaction',
@@ -50,14 +51,43 @@ export class TransactionComponent implements OnInit {
     this.transactionService.deleteTransaction(id)
       .subscribe(data => {
         if(data.n == 1){
+          console.log("deleted!");
           for(var i = 0; i < transactions.length; i++) {
             if(transactions[i] == id){
               transactions.splice(i,1);
             }
           }
-          this.getList();
         }
-      })
+      });
+  }
+
+
+  deleteTransactionAlert(id: any) {
+    swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        swal(
+          'Deleted!',
+          'Your Expense has been deleted.',
+          'success'
+        );
+       this.deleteTransaction(id);
+      } else if (result.dismiss === 'cancel') {
+        swal(
+          'Cancelled',
+          'Your Expense is safe :)',
+          'error'
+        )
+      } else if(result.dismiss === 'overlay'){
+
+      }
+    })
   }
 
   getList(){
@@ -68,8 +98,10 @@ export class TransactionComponent implements OnInit {
   ngOnInit() {
     this.transactionService.getTransactionsForUser()
       .subscribe(transactions => this.transactions = transactions);
+
     this.groupService.getGroupsForUser()
       .subscribe(groups => this.groups = groups);
+
     this.authService.getDashboard().subscribe(dashboard => {
         this.user = dashboard.user;
         console.log(this.user);

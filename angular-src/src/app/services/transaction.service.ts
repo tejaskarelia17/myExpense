@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { TransactionSchema } from './transactionSchema';
 import 'rxjs/add/operator/map';
+import swal from 'sweetalert2';
 
 @Injectable()
 export class TransactionService {
@@ -36,10 +37,8 @@ export class TransactionService {
 
   //Delete Transaction
   deleteTransaction(id){
-    if(confirm("Are you sure to delete "+id)){
       return this.http.delete('http://localhost:3000/transactions/transaction/'+id)
         .map(res => res.json());
-    }
   }
 
   //Load UserID

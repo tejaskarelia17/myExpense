@@ -36,7 +36,7 @@
                 <td>$ <span>{{transaction.amount}}</span></td>
                 <td>{{transaction.group_name}}</td>
                 <td>{{ transaction.date | date:'mediumDate' }}</td>
-                <th><input type="button"  (click)="deleteTransaction(transaction._id)" value="Delete" class="btn btn-danger"></th>
+                <th><input type="button"  (click)="deleteTransactionAlert(transaction._id)" value="Delete" class="btn btn-danger"></th>
               </tr>
               </tbody>
             </table>
