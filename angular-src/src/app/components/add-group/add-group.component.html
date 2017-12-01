@@ -1,4 +1,5 @@
 <div>
+  <app-navbar [user]="user"></app-navbar>
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="row bg-title">
@@ -6,16 +7,16 @@
           <h4 class="page-title">Add Group</h4> </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
           <ol class="breadcrumb">
-            <li><a href="index.html">myExpense</a></li>
+            <li><a [routerLink]="['/dashboard']">myExpense</a></li>
             <li class="active">Add Group</li>
           </ol>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <div class="white-box">
             <h3 class="box-title">Add Group</h3>
-            <form (submit)="addGroup()" class="form-material form-horizontal">
+            <form #addGroupForm (submit)="addGroup(); addGroupForm.reset()" class="form-material form-horizontal">
               <div class="form-group">
                 <label class="col-md-12">Name
                 </label>
@@ -34,13 +35,10 @@
             </form>
           </div>
         </div>
-      </div>
-      <div class="row" *ngIf="groups">
-        <div class="col-sm-12">
+        <div class="col-sm-6" *ngIf="groups">
           <div class="white-box">
             <h3 class="box-title">List Groups</h3>
             <div class="col-sm-12">
-              <div class="white-box">
                 <div class="table-responsive">
                   <table id="myTable" class="table table-striped">
                     <thead>
@@ -54,11 +52,10 @@
                     <tr *ngFor="let group of groups">
                       <td>{{group.name}}</td>
                       <td>{{group.description}}</td>
-                      <th><input type="button"  (click)="deleteGroup(group._id)" value="Delete" class="btn btn-danger"></th>
+                      <th><input type="button"  (click)="deleteGroup(group._id, group.name)" value="Delete" class="btn btn-danger"></th>
                     </tr>
                     </tbody>
                   </table>
-                </div>
               </div>
             </div>
           </div>

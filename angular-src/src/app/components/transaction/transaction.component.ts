@@ -13,7 +13,7 @@ import swal from 'sweetalert2';
   providers: [TransactionService, AuthService, GroupService]
 })
 export class TransactionComponent implements OnInit {
-  //@Input user: any;
+  //@Input() user: Object;
   user: Object;
   groups: GroupSchema[];
   group: GroupSchema;
@@ -29,7 +29,9 @@ export class TransactionComponent implements OnInit {
     private transactionService: TransactionService,
     private authService: AuthService,
     private groupService: GroupService
-  ) { }
+  ) {
+    this.user = new Object;
+  }
 
   addTransaction(){
     const newTransaction = {
@@ -41,22 +43,22 @@ export class TransactionComponent implements OnInit {
     this.transactionService.addTransactions(newTransaction)
       .subscribe(transaction => {
         this.transactions.push(transaction);
-        this.transactionService.getTransactionsForUser()
-          .subscribe(transactions => this.transactions = transactions);
+        // this.transactionService.getTransactionsForUser()
+        //   .subscribe(transactions => this.transactions = transactions);
+        this.getList();
     })
   }
 
   deleteTransaction(id:any){
-    let transactions = this.transactions;
     this.transactionService.deleteTransaction(id)
       .subscribe(data => {
-        if(data.n == 1){
-          console.log("deleted!");
-          for(var i = 0; i < transactions.length; i++) {
-            if(transactions[i] == id){
-              transactions.splice(i,1);
+        if(data){
+          for(var i = 0; i < this.transactions.length; i++) {
+            if(this.transactions[i] == id){
+              this.transactions.splice(i,1);
             }
           }
+          this.getList();
         }
       });
   }

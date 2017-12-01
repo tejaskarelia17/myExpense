@@ -14,26 +14,31 @@ import {GroupSchema} from "../../services/groupSchema";
 export class NavbarComponent implements OnInit {
 
   @Input() user: Object;
-
+ // user: Object;
   groups: GroupSchema[];
   group: GroupSchema;
+  groupname: String;
 
   constructor(
     private authService: AuthService,
     private flashMessage: FlashMessagesService,
     private groupService: GroupService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.groupService.getGroupsForUser()
       .subscribe(groups => this.groups = groups);
   }
 
+  getGroupsTransaction(groupname: any){
+    const group_name = this.groupname;
+  }
+
   onLogoutClick(){
     this.authService.logout();
-    this.flashMessage.show('' , { cssClass: 'alert-danger', timeout: 3000 });
     this.router.navigate(['/login']);
+    this.flashMessage.show('' , { cssClass: 'alert-danger', timeout: 3000 });
     return false;
   }
 }

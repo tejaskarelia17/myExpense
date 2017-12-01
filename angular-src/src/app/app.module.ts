@@ -22,6 +22,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { TransactionService } from './services/transaction.service';
 import { AddBillComponent } from './components/add-bill/add-bill.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
+import { GrouptransactionComponent } from './components/transaction/grouptransaction/grouptransaction.component';
 
 
 const appRoutes: Routes = [
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
   {path: 'editprofile', component: EditprofileComponent},
   {path: 'transactions', component: TransactionComponent},
   {path: 'addbill', component: AddBillComponent},
-  {path: 'addgroup', component: AddGroupComponent}
+  {path: 'addgroup', component: AddGroupComponent},
+  {path: 'grouptransaction/:group_name', component: GrouptransactionComponent}
 ];
 
 @NgModule({
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
     EditprofileComponent,
     TransactionComponent,
     AddBillComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    GrouptransactionComponent
   ],
   imports: [
     BrowserModule,

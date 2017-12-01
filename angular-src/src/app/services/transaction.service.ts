@@ -48,4 +48,11 @@ export class TransactionService {
     return this.user_id;
   }
 
+  //Get Transactions of a particular Group
+  getTransactionsOfGroupsForUser(group_name: String){
+    this.loadUserId();
+    const userId = this.user_id;
+    return this.http.get('http://localhost:3000/transactions/listgrouptransaction/'+userId+'/'+group_name)
+      .map(res => res.json());
+  }
 }

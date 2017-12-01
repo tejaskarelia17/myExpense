@@ -1,4 +1,5 @@
 <div>
+  <app-navbar [user]="user"></app-navbar>
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="row bg-title">
@@ -15,25 +16,25 @@
         <div class="col-sm-4">
           <div class="white-box">
             <h3 class="box-title">Add Bill</h3>
-            <form (submit)="addTransaction()" class="form-material form-horizontal">
+            <form #addBillForm (submit)="addTransaction(); addBillForm.reset()" class="form-material form-horizontal">
               <div class="form-group">
                 <label class="col-md-12">Name
                 </label>
                 <div class="col-md-12">
-                  <input type="text" [(ngModel)]="name" name="name" class="form-control" placeholder="Enter Expense Name"> </div>
+                  <input type="text" [(ngModel)]="name" name="name" required class="form-control" placeholder="Enter Expense Name"> </div>
               </div>
               <div class="form-group">
                 <label class="col-md-12">Amount <i class="fa fa-usd"></i>
                 </label>
                 <div class="col-md-12">
-                  <input type="number" [(ngModel)]="amount" name="amount" class="form-control" placeholder="Enter Expense Amount">
+                  <input type="number" [(ngModel)]="amount" name="amount" required class="form-control" placeholder="Enter Expense Amount">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-12">Group</label>
                 <div class="col-sm-12">
-                  <select [(ngModel)]="selectedGroup" name="selectedGroup" class="form-control">
-                    <option disabled>--Select--</option>
+                  <select [(ngModel)]="selectedGroup" name="selectedGroup" placeholder="Select Group" required class="form-control">
+                    <option selected disabled>--Select--</option>
                     <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
                   </select>
                 </div>
@@ -41,7 +42,7 @@
               <div class="form-group">
                 <label class="col-md-12">Description</label>
                 <div class="col-md-12">
-                  <textarea [(ngModel)]="description" name="description" class="form-control" rows="3" placeholder="Enter Description"></textarea>
+                  <textarea [(ngModel)]="description" name="description" class="form-control" required rows="3" placeholder="Enter Description"></textarea>
                 </div>
               </div>
               <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>
@@ -83,3 +84,4 @@
     </div>
   </div>
 </div>
+

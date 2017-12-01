@@ -14,7 +14,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.authService.getDashboard().subscribe(dashboard => {

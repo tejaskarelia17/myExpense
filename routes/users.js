@@ -80,42 +80,42 @@ router.get('/editprofile', passport.authenticate('jwt', { session: false }), fun
     res.json({user: req.user});
 });
 
-//Get Transactions
-router.get('/transactions', function (req, res) {
-    Transaction.find(function(err, transactions){
-        res.json(transactions);
-    })
-});
-
-
-//Add Transactions
-router.post('/addtransaction', passport.authenticate('jwt', { session: false }), function (req, res) {
-
-    let newTransaction = new Transaction({
-        name: req.body.name,
-        description: req.body.description,
-        amount: req.body.amount,
-        user_id: req.body.user_id
-    });
-    newTransaction.save((err, transaction) => {
-        if(err){
-            res.json({success: false, msg:'Failed to add transaction'});
-        } else {
-            res.json({success: true, msg:'Transaction added successfully'});
-        }
-    });
-});
-
-//Delete Transactions
-router.delete('/transaction/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-    Transaction.remove({_id: req.params.id}, function (err, result) {
-        if(err) {
-            res.json({success: false, msg:'Failed to delete transaction'});
-        } else {
-            res.json({success: true, msg:result + ': Transaction deleted'});
-        }
-    })
-});
+// //Get Transactions
+// router.get('/transactions', function (req, res) {
+//     Transaction.find(function(err, transactions){
+//         res.json(transactions);
+//     })
+// });
+//
+//
+// //Add Transactions
+// router.post('/addtransaction', passport.authenticate('jwt', { session: false }), function (req, res) {
+//
+//     let newTransaction = new Transaction({
+//         name: req.body.name,
+//         description: req.body.description,
+//         amount: req.body.amount,
+//         user_id: req.body.user_id
+//     });
+//     newTransaction.save((err, transaction) => {
+//         if(err){
+//             res.json({success: false, msg:'Failed to add transaction'});
+//         } else {
+//             res.json({success: true, msg:'Transaction added successfully'});
+//         }
+//     });
+// });
+//
+// //Delete Transactions
+// router.delete('/transaction/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+//     Transaction.remove({_id: req.params.id}, function (err, result) {
+//         if(err) {
+//             res.json({success: false, msg:'Failed to delete transaction'});
+//         } else {
+//             res.json({success: true, msg:result + ': Transaction deleted'});
+//         }
+//     })
+// });
 
 
 //Export Modules

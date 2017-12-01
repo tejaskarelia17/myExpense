@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../services/auth.service';
 import { GroupService } from './../../services/group.service';
 import { GroupSchema } from './../../services/groupSchema';
+import { TransactionSchema } from './../../services/transactionSchema';
 
 @Component({
   selector: 'app-add-group',
@@ -13,6 +14,8 @@ export class AddGroupComponent implements OnInit {
 
   //@Input user: any;
   user: Object;
+  transactions: TransactionSchema[];
+  transaction: TransactionSchema;
   groups: GroupSchema[];
   group: GroupSchema;
   name : String;
@@ -22,7 +25,9 @@ export class AddGroupComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private groupService: GroupService
-  ) { }
+  ) {
+    this.user = new Object;
+  }
 
   addGroup(){
     const newGroup = {
@@ -37,19 +42,25 @@ export class AddGroupComponent implements OnInit {
       })
   }
 
-  deleteGroup(id:any){
+  deleteGroup(id:any, name:any){
     let groups = this.groups;
-    this.groupService.deleteGroup(id)
+    this.groupService.deleteGroup(name)
       .subscribe(data => {
-        if(data.n == 1){
+        if(data){
           for(var i = 0; i < groups.length; i++) {
             if(groups[i] == id){
               groups.splice(i,1);
             }
           }
+          this.deleteGroupTransactions(name);
           this.getGroupList();
         }
       })
+  }
+
+  deleteGroupTransactions(name:any){
+    this.groupService.deleteGroupTransactions(name)
+      .subscribe(transactions => this.transactions = transactions );
   }
 
   getGroupList(){
@@ -60,6 +71,13 @@ export class AddGroupComponent implements OnInit {
   ngOnInit() {
     this.groupService.getGroupsForUser()
       .subscribe(groups => this.groups = groups);
+    this.authService.getDashboard().subscribe(dashboard => {
+        this.user = dashboard.user;
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
   }
 
 }

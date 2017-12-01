@@ -56,5 +56,14 @@ router.delete('/transaction/:id',  function (req, res) {
 });
 
 
+//Get Transactions for particular group
+router.get('/listgrouptransaction/:userId/:group_name', function (req, res) {
+    Transaction.find({"user_id": req.params.userId, "group_name": req.params.group_name}, function(err, transactions){
+        res.json(transactions);
+    }).sort({"date": -1})
+});
+
+
+
 //Export Modules
 module.exports = router;

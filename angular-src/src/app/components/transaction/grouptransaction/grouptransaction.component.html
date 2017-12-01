@@ -1,0 +1,25 @@
+<div>
+  group Transaction works!{{group_name}}
+  <table id="myTable" class="table table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Group</th>
+      <th>Date</th>
+      <th data-orderable="false"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let transaction of transactions">
+      <td>{{transaction.name}}</td>
+      <td>{{transaction.description}}</td>
+      <td>$ <span>{{transaction.amount}}</span></td>
+      <td>{{transaction.group_name}}</td>
+      <td>{{ transaction.date | date:'mediumDate' }}</td>
+      <th><input type="button"  (click)="deleteTransactionAlert(transaction._id)" value="Delete" class="btn btn-danger"></th>
+    </tr>
+    </tbody>
+  </table>
+</div>

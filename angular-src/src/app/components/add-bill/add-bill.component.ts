@@ -27,7 +27,9 @@ export class AddBillComponent implements OnInit {
     private transactionService: TransactionService,
     private authService: AuthService,
     private groupService: GroupService
-  ) { }
+  ) {
+    this.user =new Object;
+  }
 
   addTransaction(){
     const newTransaction = {

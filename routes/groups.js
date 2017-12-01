@@ -7,6 +7,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const Groups = require('../models/groups');
+const Transactions = require('../models/transactions');
 
 //Get Groups
 router.get('/listgroups', function (req, res) {
@@ -21,7 +22,6 @@ router.get('/listgroups/:userId', function (req, res) {
         res.json(groups);
     })
 });
-
 
 //Add Groups
 router.post('/addgroup', function (req, res) {
@@ -42,14 +42,33 @@ router.post('/addgroup', function (req, res) {
 });
 
 //Delete Groups
-router.delete('/group/:id', function (req, res) {
-    Groups.remove({_id: req.params.id}, function (err, result) {
+router.delete('/group/:name/:userId', function (req, res) {
+    // Transactions.deleteMany({group_name: req.params.name}, function (err, result) {
+    //     if(err) {
+    //         res.json({success: false, msg:'Failed to delete group'});
+    //     } else {
+    //         res.json({success: true, msg:result + ': Group deleted with all transactions'});
+    //     }
+    // });
+    Groups.remove({name: req.params.name,"user_id":req.params.userId}, function (err, result) {
         if(err) {
             res.json({success: false, msg:'Failed to delete group'});
         } else {
-            res.json({success: true, msg:result + ': Group deleted'});
+            res.json({success: true, msg:result + ': Group deleted with all transactions'});
         }
-    })
+    });
 });
+
+router.delete('/transactions/group/:name', function (req, res) {
+    Transactions.deleteMany({"group_name": req.params.name}, function (err, result) {
+        if(err) {
+            res.json({success: false, msg:'Failed to delete group'});
+        } else {
+            res.json({success: true, msg:result + ': Group deleted with all transactions'});
+        }
+    });
+});
+
+
 
 module.exports = router;

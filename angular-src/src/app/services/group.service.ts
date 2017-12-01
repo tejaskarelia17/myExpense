@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class GroupService {
   user_id: String;
+  group_name: String;
 
   constructor(
     private http: Http
@@ -30,11 +31,18 @@ export class GroupService {
   }
 
   //Delete Transaction
-  deleteGroup(id){
-    if(confirm("Are you sure to delete "+id)){
-      return this.http.delete('http://localhost:3000/groups/group/'+id)
+  deleteGroup(name){
+    this.loadUserId();
+    const userId = this.user_id;
+    if(confirm("Are you sure to delete "+name)){
+      return this.http.delete('http://localhost:3000/groups/group/'+name+'/'+userId)
         .map(res => res.json());
     }
+  }
+
+  deleteGroupTransactions(name){
+    return this.http.delete('http://localhost:3000/groups/transactions/group/'+name)
+      .map(res => res.json());
   }
 
   //Load UserID
