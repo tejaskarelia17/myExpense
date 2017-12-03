@@ -29,6 +29,7 @@ const app = express();
 const users = require('./routes/users');
 const transactions = require('./routes/transactions');
 const groups = require('./routes/groups');
+const dashboard = require('./routes/dashboard');
 
 //Port Number for server
 const port = 3000;
@@ -57,6 +58,7 @@ app.get('/', (req, res) => {
 app.use('/users', users);
 app.use('/transactions', transactions);
 app.use('/groups', groups);
+app.use('/dashboard', dashboard);
 
 //Starting Server
 app.listen(port, () => {

@@ -106,7 +106,6 @@ export class TransactionComponent implements OnInit {
 
     this.authService.getDashboard().subscribe(dashboard => {
         this.user = dashboard.user;
-        console.log(this.user);
       },
       err => {
         console.log(err);

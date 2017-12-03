@@ -31,7 +31,57 @@ export class GrouptransactionComponent implements OnInit {
     private authService: AuthService,
     private groupService: GroupService,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    this.user = new Object;
+  }
+
+  deleteTransaction(id:any){
+    this.transactionService.deleteTransaction(id)
+      .subscribe(data => {
+        if(data){
+          for(var i = 0; i < this.transactions.length; i++) {
+            if(this.transactions[i] == id){
+              this.transactions.splice(i,1);
+            }
+          }
+          this.getList();
+        }
+      });
+  }
+
+
+  deleteTransactionAlert(id: any) {
+    swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        swal(
+          'Deleted!',
+          'Your Expense has been deleted.',
+          'success'
+        );
+        this.deleteTransaction(id);
+      } else if (result.dismiss === 'cancel') {
+        swal(
+          'Cancelled',
+          'Your Expense is safe :)',
+          'error'
+        )
+      } else if(result.dismiss === 'overlay'){
+
+      }
+    })
+  }
+
+  getList(){
+    this.transactionService.getTransactionsOfGroupsForUser(this.group_name)
+      .subscribe(transactions => this.transactions = transactions);
+  }
 
 
   ngOnInit() {
@@ -40,5 +90,13 @@ export class GrouptransactionComponent implements OnInit {
 
     this.transactionService.getTransactionsOfGroupsForUser(this.group_name)
       .subscribe(transactions => this.transactions = transactions);
+
+    this.authService.getDashboard().subscribe(dashboard => {
+        this.user = dashboard.user;
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
   }
 }

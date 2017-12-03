@@ -16,6 +16,7 @@ import { EditprofileComponent } from './components/editprofile/editprofile.compo
 import { TransactionComponent } from './components/transaction/transaction.component';
 
 import { ValidateService } from './services/validate.service';
+import { DashboardService } from './services/dashboard.service';
 import { AuthService } from './services/auth.service';
 import { GroupService } from './services/group.service';
 import { FlashMessagesModule } from 'angular2-flash-messages';
@@ -61,7 +62,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule
   ],
-  providers: [ValidateService,AuthService,TransactionService,GroupService],
+  providers: [ValidateService,AuthService,TransactionService,GroupService,DashboardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

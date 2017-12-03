@@ -23,7 +23,6 @@ router.get('/transactions/:userId', function (req, res) {
     }).sort({"date": -1}).limit(7)
 });
 
-
 //Add Transactions
 router.post('/addtransaction', function (req, res) {
 
