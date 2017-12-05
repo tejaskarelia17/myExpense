@@ -11,6 +11,7 @@ import { GroupSchema } from './../../services/groupSchema';
   styleUrls: ['./add-bill.component.css'],
   providers: [TransactionService, AuthService, GroupService]
 })
+
 export class AddBillComponent implements OnInit {
 
   user: Object;
@@ -46,7 +47,10 @@ export class AddBillComponent implements OnInit {
       })
   }
 
+
   ngOnInit() {
+
+
     this.transactionService.getTransactionsForUser()
       .subscribe(transactions => this.transactions = transactions);
     this.groupService.getGroupsForUser()

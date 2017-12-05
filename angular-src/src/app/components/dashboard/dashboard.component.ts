@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { TransactionService } from './../../services/transaction.service';
@@ -6,7 +6,8 @@ import { TransactionSchema } from './../../services/transactionSchema';
 import { GroupService } from './../../services/group.service';
 import { DashboardService } from './../../services/dashboard.service';
 import { GroupSchema } from './../../services/groupSchema';
-import {isUndefined} from "util";
+
+
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit {
   monthAndYear: String;
   PieData: any;
   BarData: any;
+  rootNode: any;
 
   dataSourcePieChart = {
     chart: {
@@ -43,6 +45,7 @@ export class DashboardComponent implements OnInit {
     },
     data: []
   };
+
 
   dataSourceBarChart = {
     chart: {
@@ -65,7 +68,9 @@ export class DashboardComponent implements OnInit {
     this.user = new Object;
   }
 
+  ngOnView
   ngOnInit() {
+
     this.dashboardService.getTransactionsTotalForUser()
       .subscribe(data => {
         if(data.length === 0 )

@@ -17,6 +17,8 @@ export class AuthService {
       .map(res => res.json());
   }
 
+
+
   getProfile(){
     let headers = new Headers();
     this.loadToken();

@@ -33,7 +33,7 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 
 const appRoutes: Routes = [
-  {path: '', component: HomeComponent},
+  {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'dashboard', component: DashboardComponent},
@@ -70,6 +70,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule,
     FusionChartsModule.forRoot(FusionCharts, Charts)
+
   ],
   providers: [ValidateService,AuthService,TransactionService,GroupService,DashboardService],
   bootstrap: [AppComponent]
