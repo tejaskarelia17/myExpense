@@ -4,9 +4,6 @@
     <div class="top-left-part"><a class="logo" href="index.html"><b><img src="./assets/plugins/images/myExpense-logo.png" alt="home" /></b><span class="hidden-xs">my<strong>Expense</strong></span></a></div>
     <ul class="nav navbar-top-links navbar-left hidden-xs">
       <!--<li><a href="javascript:void(0)" data-class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>-->
-      <li style="margin-left: 20px">
-        <app-search></app-search>
-      </li>
     </ul>
     <ul class="nav navbar-top-links navbar-right pull-right">
       <li class="dropdown">
@@ -38,7 +35,6 @@
       </li>
       <li class="nav-small-cap m-t-10">--- Main Menu</li>
       <li> <a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/dashboard']" class="waves-effect"><i class="ti-dashboard p-r-10"></i> <span class="hide-menu">Dashboard</span></a> </li>
-      <li> <a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/reports']" class="waves-effect"><i class="icon-people p-r-10"></i> <span class="hide-menu">Reports</span></a> </li>
       <li class="dropdown">
         <a href="javascript:void(0);" class="dropdown-toggle waves-effect" data-toggle="dropdown"><i class="icon-people p-r-10"></i> <span class="hide-menu"> Groups </span></a>
         <ul class="dropdown-menu dropdown-user pull-right animated fadeInUp">
@@ -50,6 +46,7 @@
           </li>
         </ul>
       </li>
+      <li> <a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/deletetransaction']" class="waves-effect"><i class="icon-trash p-r-10"></i> <span class="hide-menu">Trash</span></a> </li>
       <li><a (click)="onLogoutClick()" href="#" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
     </ul>
   </div>

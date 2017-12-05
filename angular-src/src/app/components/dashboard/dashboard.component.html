@@ -15,9 +15,12 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="white-box">
-        <h3 class="box-title">Line Chart</h3>
+        <h3 class="box-title">Groups</h3>
         <div>
-          <canvas id="chart1" height="150"></canvas>
+            <fusioncharts
+              type="pie3d"
+              [dataSource]='dataSourcePieChart' >
+            </fusioncharts>
         </div>
       </div>
     </div>
@@ -25,7 +28,10 @@
       <div class="white-box">
         <h3 class="box-title">Bar Chart</h3>
         <div>
-          <canvas id="chart4" height="150"></canvas>
+          <fusioncharts
+            type="column2d"
+            [dataSource]='dataSourceBarChart' >
+          </fusioncharts>
         </div>
       </div>
     </div>

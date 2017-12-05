@@ -26,6 +26,22 @@ export class DashboardService {
       .map(res => res.json());
   }
 
+  //PieChart
+  getPieChart(){
+    this.loadUserId();
+    const userId = this.user_id;
+    return this.http.get('http://localhost:3000/dashboard/pieChart/'+userId)
+      .map(res => res.json());
+  }
+
+  //BarChart
+  getBarChart(){
+    this.loadUserId();
+    const userId = this.user_id;
+    return this.http.get('http://localhost:3000/dashboard/barChart/'+userId)
+      .map(res => res.json());
+  }
+
   //Load UserID
   loadUserId(){
     const userIdFromStorage = localStorage.getItem('user_id');

@@ -18,7 +18,7 @@ router.get('/transactions', function (req, res) {
 //Get Transactions
 router.get('/transactions/:userId', function (req, res) {
     //console.log("from transaction.js: "+req.params.userId);
-    Transaction.find({"user_id": req.params.userId}, function(err, transactions){
+    Transaction.find({"user_id": req.params.userId, "isDeleted": false}, function(err, transactions){
         res.json(transactions);
     }).sort({"date": -1}).limit(7)
 });
@@ -55,13 +55,50 @@ router.delete('/transaction/:id',  function (req, res) {
 });
 
 
+//Delete Transactions
+router.get('/trans/:id', function (req, res) {
+    //console.log("from transaction.js: "+req.params.userId);
+    Transaction.find({"_id": req.params.id}, function(err, transaction){
+        res.json(transaction);
+    })
+});
+
+router.put('/transaction/:id',  function (req, res) {
+    Transaction.updateOne({_id: req.params.id}, {$set:{isDeleted:true}}, function (err, result) {
+        if(err) {
+            res.json({success: false, msg:'Failed to delete transaction'});
+        } else {
+            res.json({success: true, msg:result + ': Transaction updated!'});
+        }
+    })
+});
+
+router.put('/restoretransaction/:id',  function (req, res) {
+    Transaction.updateOne({_id: req.params.id}, {$set:{isDeleted:false}}, function (err, result) {
+        if(err) {
+            res.json({success: false, msg:'Failed to delete transaction'});
+        } else {
+            res.json({success: true, msg:result + ': Transaction updated!'});
+        }
+    })
+});
+
+
 //Get Transactions for particular group
 router.get('/listgrouptransaction/:userId/:group_name', function (req, res) {
-    Transaction.find({"user_id": req.params.userId, "group_name": req.params.group_name}, function(err, transactions){
+    Transaction.find({"user_id": req.params.userId, "group_name": req.params.group_name, "isDeleted": false}, function(err, transactions){
         res.json(transactions);
     }).sort({"date": -1})
 });
 
+
+//Get Transactions
+router.get('/deleteTrans/:userId', function (req, res) {
+    //console.log("from transaction.js: "+req.params.userId);
+    Transaction.find({"user_id": req.params.userId, "isDeleted": true}, function(err, transactions){
+        res.json(transactions);
+    })
+});
 
 
 //Export Modules

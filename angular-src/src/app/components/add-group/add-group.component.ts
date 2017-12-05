@@ -43,13 +43,13 @@ export class AddGroupComponent implements OnInit {
   }
 
   deleteGroup(id:any, name:any){
-    let groups = this.groups;
+    //let groups = this.groups;
     this.groupService.deleteGroup(name)
       .subscribe(data => {
         if(data){
-          for(var i = 0; i < groups.length; i++) {
-            if(groups[i] == id){
-              groups.splice(i,1);
+          for(var i = 0; i < this.groups.length; i++) {
+            if(this.groups[i] == id){
+              this.groups.splice(i,1);
             }
           }
           this.deleteGroupTransactions(name);

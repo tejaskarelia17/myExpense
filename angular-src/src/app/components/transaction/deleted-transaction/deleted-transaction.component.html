@@ -1,0 +1,53 @@
+<div>
+  <app-navbar [user]="user"></app-navbar>
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Trash</h4> </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+          <ol class="breadcrumb">
+            <li><a href="#" [routerLink]="['/dashboard']">myExpense</a></li>
+            <li class="active">Trash</li>
+          </ol>
+        </div>
+        <!-- /.col-lg-12 -->
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="white-box">
+            <h3 class="box-title m-b-0">Activity</h3>
+            <div class="table-responsive">
+              <table id="myTable" class="table table-striped">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Group</th>
+                  <th>Date</th>
+                  <th data-orderable="false"></th>
+                  <th data-orderable="false"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let transaction of transactions">
+                  <td>{{transaction.name}}</td>
+                  <td>{{transaction.description}}</td>
+                  <td>$ <span>{{transaction.amount}}</span></td>
+                  <td>{{transaction.group_name}}</td>
+                  <td>{{ transaction.date | date:'mediumDate' }}</td>
+                  <th><input type="button"  (click)="restoreTransactionAlert(transaction._id)" value="Restore" class="btn btn-primary"></th>
+                  <th><input type="button"  (click)="deleteTransactionAlert(transaction._id)" value="Permenant Delete" class="btn btn-danger"></th>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    </div>
+    <hr>
+  </div>
+</div>

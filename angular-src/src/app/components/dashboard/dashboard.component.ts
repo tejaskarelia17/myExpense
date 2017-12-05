@@ -26,6 +26,35 @@ export class DashboardComponent implements OnInit {
   amount: Number;
   totalAmount: Number;
   monthAndYear: String;
+  PieData: any;
+  BarData: any;
+
+  dataSourcePieChart = {
+    chart: {
+      startingangle: '120',
+      showlabels: '0',
+      showlegend: '1',
+      enablemultislicing: '0',
+      slicingdistance: '15',
+      showpercentvalues: '1',
+      showpercentintooltip: '0',
+      plottooltext: 'Group : $label | Total Expense : $datavalue',
+      theme: 'ocean'
+    },
+    data: []
+  };
+
+  dataSourceBarChart = {
+    chart: {
+      "caption": "Monthly Expenditure",
+      "xAxisName": "Month (12-Dec)",
+      "yAxisName": "Expense",
+      "numberPrefix": "$",
+      "plottooltext": 'Month : $label | Total Expense : $datavalue',
+      "theme": "ocean"
+    },
+    "data": []
+  };
 
   constructor(
     private authService: AuthService,
@@ -39,7 +68,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.dashboardService.getTransactionsTotalForUser()
       .subscribe(data => {
-        console.log(data);
         if(data.length === 0 )
         {
           this.totalAmount = 0;
@@ -50,11 +78,21 @@ export class DashboardComponent implements OnInit {
             this.monthAndYear = "December 2017"
           }
         }
-
       });
 
     this.dashboardService.getTransactionsForUser()
       .subscribe(transactions => this.transactions = transactions);
+
+    this.dashboardService.getBarChart()
+      .subscribe(data => {
+        console.log(data);
+        this.dataSourceBarChart.data = data;
+      });
+
+    this.dashboardService.getPieChart()
+      .subscribe(data => {
+        this.dataSourcePieChart.data = data;
+      });
 
     this.authService.getDashboard().subscribe(dashboard => {
         this.user = dashboard.user;

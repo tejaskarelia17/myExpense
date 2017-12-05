@@ -1,19 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { TransactionService } from './../../services/transaction.service';
-import { TransactionSchema } from './../../services/transactionSchema';
-import { AuthService } from './../../services/auth.service';
-import { GroupService } from './../../services/group.service';
-import { GroupSchema } from './../../services/groupSchema';
+import { Component, OnInit } from '@angular/core';
+import { TransactionService } from './../../../services/transaction.service';
+import { TransactionSchema } from './../../../services/transactionSchema';
+import { AuthService } from './../../../services/auth.service';
+import { GroupService } from './../../../services/group.service';
+import { GroupSchema } from './../../../services/groupSchema';
 import swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-transaction',
-  templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.css'],
+  selector: 'app-deleted-transaction',
+  templateUrl: './deleted-transaction.component.html',
+  styleUrls: ['./deleted-transaction.component.css'],
   providers: [TransactionService, AuthService, GroupService]
 })
-export class TransactionComponent implements OnInit {
-  //@Input() user: Object;
+export class DeletedTransactionComponent implements OnInit {
+
   user: Object;
   groups: GroupSchema[];
   group: GroupSchema;
@@ -33,22 +33,6 @@ export class TransactionComponent implements OnInit {
     this.user = new Object;
   }
 
-  addTransaction(){
-    const newTransaction = {
-      name: this.name,
-      description: this.description,
-      amount: this.amount,
-      group_name: this.selectedGroup
-    };
-    this.transactionService.addTransactions(newTransaction)
-      .subscribe(transaction => {
-        this.transactions.push(transaction);
-        // this.transactionService.getTransactionsForUser()
-        //   .subscribe(transactions => this.transactions = transactions);
-        this.getList();
-    })
-  }
-
   deleteTransaction(id:any){
     this.transactionService.deleteTransaction(id)
       .subscribe(data => {
@@ -58,26 +42,62 @@ export class TransactionComponent implements OnInit {
               this.transactions.splice(i,1);
             }
           }
-          this.getList();
+          this.getListofDeleted();
         }
       });
   }
 
-  updateTransactions(id:any){
+  getListofDeleted(){
+    this.transactionService.getTransactionsForUserDeleted()
+      .subscribe(transactions => this.transactions = transactions);
+  }
+
+  restoreTransaction(id:any){
     this.transactionService.getTransactionsForID(id)
       .subscribe(transaction => {
+        console.log(transaction);
         //transaction = this.updateTransaction;
         this.updateTransaction = transaction;
-        this.transactionService.updateTransactions(this.updateTransaction).subscribe(data => {
-          this.getList();
+        this.transactionService.restoreTransactions(this.updateTransaction).subscribe(data => {
+          this.getListofDeleted();
         });
       });
   }
 
+  restoreTransactionAlert(id: any) {
+    swal({
+      title: 'Are you sure?',
+      text: 'Do you want to restore the transaction!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Please!',
+      cancelButtonText: 'No, keep it in trash'
+    }).then((result) => {
+      if (result.value) {
+        swal(
+          'Restored!',
+          'Your Expense has been restored.',
+          'success'
+        );
+        //this.deleteTransaction(id);
+        this.restoreTransaction(id);
+      } else if (result.dismiss === 'cancel') {
+        swal(
+          'Cancelled',
+          'Your Expense is still in trash :)',
+          'error'
+        )
+      } else if(result.dismiss === 'overlay'){
+
+      }
+    })
+  }
+
+
   deleteTransactionAlert(id: any) {
     swal({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this imaginary file!',
+      text: 'You will not be able to recover this expense!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -89,8 +109,8 @@ export class TransactionComponent implements OnInit {
           'Your Expense has been deleted.',
           'success'
         );
-       //this.deleteTransaction(id);
-        this.updateTransactions(id);
+        //this.deleteTransaction(id);
+        this.deleteTransaction(id);
       } else if (result.dismiss === 'cancel') {
         swal(
           'Cancelled',
@@ -103,13 +123,8 @@ export class TransactionComponent implements OnInit {
     })
   }
 
-  getList(){
-    this.transactionService.getTransactionsForUser()
-      .subscribe(transactions => this.transactions = transactions);
-  }
-
   ngOnInit() {
-    this.transactionService.getTransactionsForUser()
+    this.transactionService.getTransactionsForUserDeleted()
       .subscribe(transactions => this.transactions = transactions);
 
     this.groupService.getGroupsForUser()
@@ -122,6 +137,6 @@ export class TransactionComponent implements OnInit {
         console.log(err);
         return false;
       });
-
   }
+
 }

@@ -24,7 +24,10 @@ export class NavbarComponent implements OnInit {
     private flashMessage: FlashMessagesService,
     private groupService: GroupService,
     private router: Router
-  ) {}
+  ) {
+    this.groupService.getGroupsForUser()
+      .subscribe(groups => this.groups = groups);
+  }
 
   ngOnInit() {
     this.groupService.getGroupsForUser()

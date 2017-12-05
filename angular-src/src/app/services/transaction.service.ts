@@ -41,6 +41,34 @@ export class TransactionService {
         .map(res => res.json());
   }
 
+  //Update Transaction
+  getTransactionsForID(id){
+    console.log('Transaction ID: '+id);
+    return this.http.get('http://localhost:3000/transactions/trans/'+id)
+      .map(res => res.json());
+  }
+
+  restoreTransactions(updateTransaction){
+    this.loadUserId();
+    console.log(updateTransaction);
+    updateTransaction.user_id = this.user_id;
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    return this.http.put('http://localhost:3000/transactions/restoretransaction/'+updateTransaction[0]._id, updateTransaction, {headers: headers})
+      .map(res => res.json());
+  }
+
+  updateTransactions(updateTransaction){
+    this.loadUserId();
+   console.log(updateTransaction);
+    updateTransaction.user_id = this.user_id;
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    return this.http.put('http://localhost:3000/transactions/transaction/'+updateTransaction[0]._id, updateTransaction, {headers: headers})
+      .map(res => res.json());
+  }
+
+
   //Load UserID
   loadUserId(){
     const userIdFromStorage = localStorage.getItem('user_id');
@@ -53,6 +81,13 @@ export class TransactionService {
     this.loadUserId();
     const userId = this.user_id;
     return this.http.get('http://localhost:3000/transactions/listgrouptransaction/'+userId+'/'+group_name)
+      .map(res => res.json());
+  }
+
+  getTransactionsForUserDeleted(){
+    this.loadUserId();
+    const userId = this.user_id;
+    return this.http.get('http://localhost:3000/transactions/deleteTrans/'+userId)
       .map(res => res.json());
   }
 }

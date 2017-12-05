@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes} from '@angular/router';
+import { FusionChartsModule } from 'angular2-fusioncharts';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -24,7 +25,12 @@ import { TransactionService } from './services/transaction.service';
 import { AddBillComponent } from './components/add-bill/add-bill.component';
 import { AddGroupComponent } from './components/add-group/add-group.component';
 import { GrouptransactionComponent } from './components/transaction/grouptransaction/grouptransaction.component';
+import { DeletedTransactionComponent } from './components/transaction/deleted-transaction/deleted-transaction.component';
 
+// Import FusionCharts library
+import * as FusionCharts from 'fusioncharts';
+// Import FusionCharts Charts module
+import * as Charts from 'fusioncharts/fusioncharts.charts';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -36,7 +42,8 @@ const appRoutes: Routes = [
   {path: 'transactions', component: TransactionComponent},
   {path: 'addbill', component: AddBillComponent},
   {path: 'addgroup', component: AddGroupComponent},
-  {path: 'grouptransaction/:group_name', component: GrouptransactionComponent}
+  {path: 'grouptransaction/:group_name', component: GrouptransactionComponent},
+  {path: 'deletetransaction', component: DeletedTransactionComponent}
 ];
 
 @NgModule({
@@ -53,14 +60,16 @@ const appRoutes: Routes = [
     TransactionComponent,
     AddBillComponent,
     AddGroupComponent,
-    GrouptransactionComponent
+    GrouptransactionComponent,
+    DeletedTransactionComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    FlashMessagesModule,
+    FusionChartsModule.forRoot(FusionCharts, Charts)
   ],
   providers: [ValidateService,AuthService,TransactionService,GroupService,DashboardService],
   bootstrap: [AppComponent]
