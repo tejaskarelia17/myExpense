@@ -5,12 +5,13 @@ import { AuthService } from './../../services/auth.service';
 import { GroupService } from './../../services/group.service';
 import { GroupSchema } from './../../services/groupSchema';
 import swal from 'sweetalert2';
+import { DashboardService } from './../../services/dashboard.service';
 
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
   styleUrls: ['./transaction.component.css'],
-  providers: [TransactionService, AuthService, GroupService]
+  providers: [TransactionService, AuthService, GroupService, DashboardService]
 })
 export class TransactionComponent implements OnInit {
   //@Input() user: Object;
@@ -24,13 +25,22 @@ export class TransactionComponent implements OnInit {
   description: String;
   amount: Number;
   updateTransaction: Object;
+  totalAmount: Number;
+  monthAndYear:String;
 
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private dashboardService: DashboardService
   ) {
     this.user = new Object;
+  }
+
+  budgetCross(){
+    if(this.totalAmount > 1000){
+      return true
+    } else return false
   }
 
   addTransaction(){
@@ -77,7 +87,7 @@ export class TransactionComponent implements OnInit {
   deleteTransactionAlert(id: any) {
     swal({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this imaginary file!',
+      text: 'This transaction can be found in the Trash!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
@@ -109,6 +119,20 @@ export class TransactionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dashboardService.getTransactionsTotalForUser()
+      .subscribe(data => {
+        if(data.length === 0 )
+        {
+          this.totalAmount = 0;
+          this.monthAndYear = "No transactions for this month!"
+        } else {
+          this.totalAmount = data[0].totalPrice;
+          if(data[0]._id == 12){
+            this.monthAndYear = "December 2017"
+          }
+        }
+      });
+
     this.transactionService.getTransactionsForUser()
       .subscribe(transactions => this.transactions = transactions);
 

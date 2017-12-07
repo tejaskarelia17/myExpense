@@ -7,6 +7,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 export class AuthService {
   authToken: any;
   user: any;
+  user_id: any;
 
   constructor(private http:Http) { }
 
@@ -17,7 +18,22 @@ export class AuthService {
       .map(res => res.json());
   }
 
+  //Load UserID
+  loadUserId(){
+    const userIdFromStorage = localStorage.getItem('user_id');
+    this.user_id = userIdFromStorage;
+    return this.user_id;
+  }
 
+  updateBudget(money){
+    console.log(money);
+    let headers = new Headers();
+    this.loadUserId();
+    const user_id = this.user_id;
+    headers.append('Content-Type','application/json');
+    return this.http.put('http://localhost:3000/users/updateBudget/'+user_id, money, {headers: headers})
+      .map(res => res.json());
+  }
 
   getProfile(){
     let headers = new Headers();

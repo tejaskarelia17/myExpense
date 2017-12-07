@@ -6,7 +6,7 @@ import { TransactionSchema } from './../../services/transactionSchema';
 import { GroupService } from './../../services/group.service';
 import { DashboardService } from './../../services/dashboard.service';
 import { GroupSchema } from './../../services/groupSchema';
-
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -30,7 +30,14 @@ export class DashboardComponent implements OnInit {
   PieData: any;
   BarData: any;
   rootNode: any;
+  show: Boolean;
+  counter: Number;
 
+  budgetCross(){
+    if(this.totalAmount > 1000){
+      return true
+    } else return false
+  }
   dataSourcePieChart = {
     chart: {
       startingangle: '120',
@@ -66,10 +73,22 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService
   ) {
     this.user = new Object;
+    this.counter =1;
   }
 
-  ngOnView
+  showTutorial(){
+    if(this.counter==1){
+      swal({
+        title: 'Tutorial',
+        text: 'Link on the tutorial!',
+        type: 'info'
+      });
+      this.counter =2;
+    }
+  }
+
   ngOnInit() {
+    // this.showTutorial();
 
     this.dashboardService.getTransactionsTotalForUser()
       .subscribe(data => {

@@ -3,6 +3,7 @@ import { ValidateService } from './../../services/validate.service';
 import { AuthService } from './../../services/auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,20 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  calltut(){
+    setTimeout(
+      swal({
+        title: 'Tutorial',
+        text: "Do you want to watch the tutorial?",
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Please!'
+      }).then((result) => {
+        if (result.value) {
+          this.router.navigate(['/tutorial']);
+        }
+      }), 6000)
+  }
   onLoginSubmit(){
     const user = {
       username: this.username,

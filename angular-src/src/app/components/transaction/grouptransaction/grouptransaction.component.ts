@@ -7,12 +7,13 @@ import { GroupSchema } from './../../../services/groupSchema';
 import swal from 'sweetalert2';
 import { ActivatedRoute, Params } from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import { DashboardService } from './../../../services/dashboard.service';
 
 @Component({
   selector: 'app-grouptransaction',
   templateUrl: './grouptransaction.component.html',
   styleUrls: ['./grouptransaction.component.css'],
-  providers: [TransactionService, AuthService, GroupService]
+  providers: [TransactionService, AuthService, GroupService,DashboardService]
 })
 export class GrouptransactionComponent implements OnInit {
 
@@ -25,12 +26,15 @@ export class GrouptransactionComponent implements OnInit {
   name : String;
   description: String;
   group_name: String;
+  totalAmount: Number;
+  monthAndYear:String;
 
   constructor(
     private transactionService: TransactionService,
     private authService: AuthService,
     private groupService: GroupService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dashboardService: DashboardService
   ) {
     this.user = new Object;
   }
@@ -49,6 +53,11 @@ export class GrouptransactionComponent implements OnInit {
       });
   }
 
+  budgetCross(){
+    if(this.totalAmount > 1000){
+      return true
+    } else return false
+  }
 
   deleteTransactionAlert(id: any) {
     swal({
@@ -85,6 +94,19 @@ export class GrouptransactionComponent implements OnInit {
 
 
   ngOnInit() {
+    this.dashboardService.getTransactionsTotalForUser()
+      .subscribe(data => {
+        if(data.length === 0 )
+        {
+          this.totalAmount = 0;
+          this.monthAndYear = "No transactions for this month!"
+        } else {
+          this.totalAmount = data[0].totalPrice;
+          if(data[0]._id == 12){
+            this.monthAndYear = "December 2017"
+          }
+        }
+      });
     let groupName = this.route.snapshot.params['group_name'];
     this.group_name = groupName;
 

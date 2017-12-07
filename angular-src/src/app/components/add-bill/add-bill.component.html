@@ -12,6 +12,7 @@
           </ol>
         </div>
       </div>
+      <h4 *ngIf="budgetCross()==true" class="page-title" style="color: red">You have crossed your monthly budget</h4>
       <div class="row">
         <div class="col-sm-4">
           <div class="white-box">
@@ -42,7 +43,7 @@
               <div class="form-group">
                 <label class="col-md-12">Description</label>
                 <div class="col-md-12">
-                  <textarea [(ngModel)]="description" name="description" class="form-control" required rows="3" placeholder="Enter Description"></textarea>
+                  <textarea [(ngModel)]="description" name="description" class="form-control" rows="3" placeholder="Enter Description"></textarea>
                 </div>
               </div>
               <button type="submit" class="btn btn-info waves-effect waves-light m-r-10">Submit</button>

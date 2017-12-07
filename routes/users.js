@@ -5,7 +5,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-
 const config = require('../config/database');
 const User = require('../models/user');
 const Transaction = require('../models/transactions');
@@ -80,6 +79,17 @@ router.get('/editprofile', passport.authenticate('jwt', { session: false }), fun
     res.json({user: req.user});
 });
 
+router.put('/updateBudget/:id',  function (req, res) {
+
+    User.updateOne({_id: req.params.id}, {$set:{setBudget:req.body.setBudget}}, function (err, result) {
+        if(err) {
+            res.json({success: false, msg:'Failed'});
+        } else {
+            res.json({success: true, msg:result + ': Profile updated!'});
+        }
+    })
+});
+
 // //Get Transactions
 // router.get('/transactions', function (req, res) {
 //     Transaction.find(function(err, transactions){
@@ -116,7 +126,5 @@ router.get('/editprofile', passport.authenticate('jwt', { session: false }), fun
 //         }
 //     })
 // });
-
-
 //Export Modules
 module.exports = router;

@@ -31,6 +31,7 @@ import { DeletedTransactionComponent } from './components/transaction/deleted-tr
 import * as FusionCharts from 'fusioncharts';
 // Import FusionCharts Charts module
 import * as Charts from 'fusioncharts/fusioncharts.charts';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 
 const appRoutes: Routes = [
   {path: '', component: LoginComponent},
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
   {path: 'addbill', component: AddBillComponent},
   {path: 'addgroup', component: AddGroupComponent},
   {path: 'grouptransaction/:group_name', component: GrouptransactionComponent},
-  {path: 'deletetransaction', component: DeletedTransactionComponent}
+  {path: 'deletetransaction', component: DeletedTransactionComponent},
+  {path: 'tutorial', component: TutorialComponent}
 ];
 
 @NgModule({
@@ -61,7 +63,8 @@ const appRoutes: Routes = [
     AddBillComponent,
     AddGroupComponent,
     GrouptransactionComponent,
-    DeletedTransactionComponent
+    DeletedTransactionComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,

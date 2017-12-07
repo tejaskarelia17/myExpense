@@ -4,12 +4,11 @@
     <div class="container-fluid">
       <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-          <h4 class="page-title">Doctor Profile</h4> </div>
+          <h4 class="page-title">Profile</h4> </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-          <a [routerLink]="['/editprofile']" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Edit Profile</a>
           <ol class="breadcrumb">
-            <li><a href="#">Hospital</a></li>
-            <li class="active">Doctor Profile</li>
+            <li><a href="#" [routerLink]="['/dashboard']">myExpense</a></li>
+            <li class="active">Profile</li>
           </ol>
         </div>
       </div>
@@ -41,6 +40,8 @@
                 <div class="col-md-12"><strong>Monthly Budget</strong>
                   <p class="text-danger m-t-20">$ <span>{{user.setBudget}}</span></p>
                 </div>
+                <a [routerLink]="['/editprofile']" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Edit Profile</a>
+
               </div>
             </div>
           </div>

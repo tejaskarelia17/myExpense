@@ -4,11 +4,13 @@ import { GroupService } from './../../services/group.service';
 import { GroupSchema } from './../../services/groupSchema';
 import { TransactionSchema } from './../../services/transactionSchema';
 
+import { DashboardService } from './../../services/dashboard.service';
+
 @Component({
   selector: 'app-add-group',
   templateUrl: './add-group.component.html',
   styleUrls: ['./add-group.component.css'],
-  providers: [AuthService, GroupService]
+  providers: [AuthService, GroupService,DashboardService]
 })
 export class AddGroupComponent implements OnInit {
 
@@ -21,10 +23,13 @@ export class AddGroupComponent implements OnInit {
   name : String;
   description: String;
   user_id: String;
+  totalAmount: Number;
+  monthAndYear:String;
 
   constructor(
     private authService: AuthService,
-    private groupService: GroupService
+    private groupService: GroupService,
+  private dashboardService: DashboardService
   ) {
     this.user = new Object;
   }
@@ -58,6 +63,13 @@ export class AddGroupComponent implements OnInit {
       })
   }
 
+  budgetCross(){
+    if(this.totalAmount > 1000){
+      return true
+    } else return false
+  }
+
+
   deleteGroupTransactions(name:any){
     this.groupService.deleteGroupTransactions(name)
       .subscribe(transactions => this.transactions = transactions );
@@ -69,6 +81,19 @@ export class AddGroupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dashboardService.getTransactionsTotalForUser()
+      .subscribe(data => {
+        if(data.length === 0 )
+        {
+          this.totalAmount = 0;
+          this.monthAndYear = "No transactions for this month!"
+        } else {
+          this.totalAmount = data[0].totalPrice;
+          if(data[0]._id == 12){
+            this.monthAndYear = "December 2017"
+          }
+        }
+      });
     this.groupService.getGroupsForUser()
       .subscribe(groups => this.groups = groups);
     this.authService.getDashboard().subscribe(dashboard => {
