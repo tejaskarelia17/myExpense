@@ -2,6 +2,10 @@
 
 myExpense is a MEAN Stack web application created as a part of my graduate course (Human Computer Interaction). It helps users manage their daily expenses and track their monthly budget.
 
+URL: https://myexpense-hci.herokuapp.com
+username: test007
+password: 123456
+
 ### Technology
 
 myExpense uses a number of technologies:
