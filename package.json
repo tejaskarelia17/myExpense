@@ -1,0 +1,19 @@
+{
+  "name": "myexpense",
+  "version": "2.0.0",
+  "description": "A simple web app that is helpful in managing and tracking day to day expense of the user.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tejaskarelia17/myExpense.git"
+  },
+  "author": "Tejas Karelia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tejaskarelia17/myExpense/issues"
+  },
+  "homepage": "https://github.com/tejaskarelia17/myExpense#readme"
+}
