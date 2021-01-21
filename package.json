@@ -1,19 +1,32 @@
 {
-  "name": "myexpense",
-  "version": "2.0.0",
-  "description": "A simple web app that is helpful in managing and tracking day to day expense of the user.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tejaskarelia17/myExpense.git"
-  },
-  "author": "Tejas Karelia",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tejaskarelia17/myExpense/issues"
-  },
-  "homepage": "https://github.com/tejaskarelia17/myExpense#readme"
+    "name": "myexpense",
+    "version": "2.0.0",
+    "description": "A simple web app that is helpful in managing and tracking day to day expense of the user.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon index.js",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tejaskarelia17/myExpense.git"
+    },
+    "author": "Tejas Karelia",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/tejaskarelia17/myExpense/issues"
+    },
+    "homepage": "https://github.com/tejaskarelia17/myExpense#readme",
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "cookie-parser": "^1.4.5",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.11.12",
+        "nodemon": "^2.0.7",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0"
+    }
 }
