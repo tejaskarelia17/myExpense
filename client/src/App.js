@@ -1,58 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectUser, selectIsAuthenticated } from './features/auth/authSlice';
+
+//Import Components
+import Login from './components/login/Login';
+import Register from './components/register/Register';
+import Body from './components/body/Body';
+import Group from './components/group/Group';
+import Transaction from './components/transaction/Transaction';
+import AddTransaction from './components/addTransaction/AddTransaction';
+import Recycle from './components/recycle/Recycle';
+
+//Import Static Assets
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+	const user = useSelector(selectUser);
+	const isAuthenticated = useSelector(selectIsAuthenticated);
+	const unauthenticatedPage = () => {
+		return (
+			<>
+				<Route exact path='/' component={Login} />
+				<Route exact path='/register' component={Register} />
+			</>
+		);
+	};
+	const authenticatedPage = () => {
+		return (
+			<>
+				<Route exact path='/group' component={Group} />
+				<Route exact path='/transaction'>
+					<Transaction />
+				</Route>
+				<Route exact path='/recycle'>
+					<Recycle />
+				</Route>
+				<Route exact path='/addtransaction'>
+					<AddTransaction />
+				</Route>
+				<Route exact path='/'>
+					<Body />
+				</Route>
+			</>
+		);
+	};
+	return (
+		<Router>
+			<div className='app'>
+				<Switch>
+					{isAuthenticated ? authenticatedPage() : unauthenticatedPage()}
+				</Switch>
+			</div>
+		</Router>
+	);
 }
 
 export default App;
