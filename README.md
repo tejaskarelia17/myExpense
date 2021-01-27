@@ -5,8 +5,6 @@ myExpense is a MEAN Stack web application created as a part of my graduate cours
 
 URL: https://myexpense-hci.herokuapp.com
 
-username: bond007 | password: 123456
-
 ### Technology
 
 myExpense uses a number of technologies:
