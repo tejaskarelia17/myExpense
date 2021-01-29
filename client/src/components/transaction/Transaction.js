@@ -1,4 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import CurrencyFormat from 'react-currency-format';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { selectUser } from './../../features/auth/authSlice';
+import TransactionService from './../../TransactionService';
+import GroupService from './../../GroupService';
+import {
+	updateTransactions,
+	selectTransactions,
+	updateGroups,
+} from './../../features/transaction/transactionSlice';
 
 //Import Components
 import Header from './../header/Header';
@@ -7,17 +18,41 @@ import Icon from '@mdi/react';
 import { mdiCurrencyUsd } from '@mdi/js';
 
 function Transaction() {
+	const user = useSelector(selectUser);
+	const dispatch = useDispatch();
+	const transaction = useSelector(selectTransactions);
+
+	const deleteEntry = (e) => {
+		TransactionService.deleteTransactions(e).then((data) => {});
+	};
+
+	useEffect(() => {
+		GroupService.listIndividualGroups(user._id).then((data) => {
+			dispatch(
+				updateGroups({
+					data,
+				})
+			);
+		});
+		TransactionService.listIndividualTransactions(user._id).then((data) => {
+			dispatch(
+				updateTransactions({
+					data,
+				})
+			);
+		});
+	}, [transaction]);
 	return (
-		<div class='container-scroller'>
+		<div className='container-scroller'>
 			<Header />
-			<div class='container-fluid page-body-wrapper'>
+			<div className='container-fluid page-body-wrapper'>
 				<Sidebar />
-				<div class='main-panel'>
-					<div class='content-wrapper'>
-						<div class='content-wrapper'>
-							<div class='page-header'>
-								<h3 class='page-title center__title'>
-									<span class='page-title-icon bg-gradient-primary text-white mr-2'>
+				<div className='main-panel'>
+					<div className='content-wrapper'>
+						<div className='content-wrapper'>
+							<div className='page-header'>
+								<h3 className='page-title center__title'>
+									<span className='page-title-icon bg-gradient-primary text-white mr-2'>
 										<Icon
 											path={mdiCurrencyUsd}
 											className='title__icon'
@@ -29,70 +64,51 @@ function Transaction() {
 								</h3>
 							</div>
 							<div className='row'>
-								<div class='col-lg-12 grid-margin stretch-card'>
-									<div class='card'>
-										<div class='card-body'>
-											<h4 class='card-title'>Basic Table</h4>
-											<p class='card-description'>
-												{' '}
-												Add class <code>.table</code>
-											</p>
-											<table class='table'>
+								<div className='col-lg-12 grid-margin stretch-card'>
+									<div className='card'>
+										<div className='card-body'>
+											<h4 className='card-title'>All Transactions</h4>
+											<p className='card-description'></p>
+											<table className='table'>
 												<thead>
 													<tr>
-														<th>Profile</th>
-														<th>VatNo.</th>
-														<th>Created</th>
-														<th>Status</th>
+														<th>Name</th>
+														<th>Description</th>
+														<th>Group</th>
+														<th>Amount</th>
+														<th>Date</th>
+														<th></th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td>Jacob</td>
-														<td>53275531</td>
-														<td>12 May 2017</td>
-														<td>
-															<label class='badge badge-danger'>Pending</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Messsy</td>
-														<td>53275532</td>
-														<td>15 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>John</td>
-														<td>53275533</td>
-														<td>14 May 2017</td>
-														<td>
-															<label class='badge badge-info'>Fixed</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Peter</td>
-														<td>53275534</td>
-														<td>16 May 2017</td>
-														<td>
-															<label class='badge badge-success'>
-																Completed
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Dave</td>
-														<td>53275535</td>
-														<td>20 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
+													{transaction?.map((entry, _i) => {
+														return (
+															<tr key={_i}>
+																<td>{entry?.name}</td>
+																<td>{entry?.description}</td>
+																<td>{entry?.group}</td>
+																<CurrencyFormat
+																	renderText={(value) => <td>{value}</td>}
+																	decimalScale={2}
+																	value={entry?.amount}
+																	displayType='text'
+																	thousandSeparator={true}
+																	prefix={'$'}
+																/>
+																<td>
+																	{moment(entry?.date).format('D MMM YYYY')}
+																</td>
+																<td>
+																	<button
+																		type='button'
+																		class='btn btn-inverse-danger btn-fw'
+																		onClick={() => deleteEntry(entry?._id)}>
+																		Delete
+																	</button>
+																</td>
+															</tr>
+														);
+													})}
 												</tbody>
 											</table>
 										</div>

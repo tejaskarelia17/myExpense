@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import DashboardService from './../../DashboardService';
+import { useSelector } from 'react-redux';
+import { selectUser } from './../../features/auth/authSlice';
 import Icon from '@mdi/react';
 import { mdiHome } from '@mdi/js';
+import { mdiChartLine } from '@mdi/js';
 
 //Import Components
 import TopWidget from './../widgets/topWidget/TopWidget';
+import TopWidgetExpense from './../widgets/topWidget/TopWidgetExpense';
 import BarGraph from './../graphs/BarGraph';
 import DonutGraph from './../graphs/DonutGraph';
 import Tables from './../tables/Tables';
@@ -11,6 +16,27 @@ import Tables from './../tables/Tables';
 //Import Static Assets
 
 function Main() {
+	const user = useSelector(selectUser);
+	const [weeklyExpense, setNewWeeklyExpense] = useState('');
+	const [expensiveGroup, setExpensiveGroup] = useState('');
+	const [totalExpense, setTotalExpense] = useState('');
+	const [cardClass, setCardClass] = useState('');
+	useEffect(() => {
+		DashboardService.weeklyExpense(user._id).then((data) => {
+			setNewWeeklyExpense(data[0]?.TotalAmount);
+		});
+		DashboardService.expensiveGroup(user._id).then((data) => {
+			setExpensiveGroup(data[0]);
+		});
+		DashboardService.totalExpense(user._id).then((data) => {
+			setTotalExpense(data[0]?.TotalAmount);
+		});
+		{
+			totalExpense < user.setBudget
+				? setCardClass('card bg-gradient-red card-img-holder text-white')
+				: setCardClass('card bg-gradient-success card-img-holder text-white');
+		}
+	}, [user]);
 	return (
 		<div class='content-wrapper'>
 			<div class='page-header'>
@@ -28,13 +54,27 @@ function Main() {
 			</div>
 			<div class='row'>
 				<div class='col-md-4 stretch-card grid-margin'>
-					<TopWidget />
+					<TopWidget
+						title='Weekly Expense'
+						value={weeklyExpense}
+						icon={mdiChartLine}
+					/>
 				</div>
 				<div class='col-md-4 stretch-card grid-margin'>
-					<TopWidget />
+					<TopWidget
+						title='Most Expensive Group'
+						value={expensiveGroup.TotalAmount}
+						subValue={expensiveGroup._id}
+						icon={mdiChartLine}
+					/>
 				</div>
 				<div class='col-md-4 stretch-card grid-margin'>
-					<TopWidget />
+					<TopWidgetExpense
+						title='Total Expense'
+						value={totalExpense}
+						icon={mdiChartLine}
+						cardClass={cardClass}
+					/>
 				</div>
 			</div>
 			<div class='row'>

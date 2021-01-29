@@ -1,4 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import CurrencyFormat from 'react-currency-format';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { selectUser } from './../../features/auth/authSlice';
+import TransactionService from './../../TransactionService';
+import {
+	updateDeletedTransactions,
+	selectDeletedTransactions,
+} from './../../features/transaction/transactionSlice';
 
 //Import Components
 import Header from './../header/Header';
@@ -7,6 +16,27 @@ import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
 
 function Recycle() {
+	const user = useSelector(selectUser);
+	const dispatch = useDispatch();
+	const deletedTransaction = useSelector(selectDeletedTransactions);
+	const [message, setMessage] = useState('');
+
+	const restoreEntry = (e) => {
+		TransactionService.restoreTransactions(e).then((data) => {});
+	};
+	const deleteEntry = (e) => {
+		TransactionService.deleteTransactionsPermanently(e).then((data) => {});
+	};
+
+	useEffect(() => {
+		TransactionService.listDeletedTransactions(user._id).then((data) => {
+			dispatch(
+				updateDeletedTransactions({
+					data,
+				})
+			);
+		});
+	}, [deletedTransaction]);
 	return (
 		<div class='container-scroller'>
 			<Header />
@@ -21,7 +51,7 @@ function Recycle() {
 										<Icon
 											path={mdiDelete}
 											className='title__icon'
-											title='Dashboard'
+											title='Recycle'
 											size={0.8}
 										/>
 									</span>
@@ -32,67 +62,54 @@ function Recycle() {
 								<div class='col-lg-12 grid-margin stretch-card'>
 									<div class='card'>
 										<div class='card-body'>
-											<h4 class='card-title'>Basic Table</h4>
-											<p class='card-description'>
-												{' '}
-												Add class <code>.table</code>
-											</p>
+											<h4 class='card-title'>Deleted Transactions</h4>
+											<p class='card-description'></p>
 											<table class='table'>
 												<thead>
 													<tr>
-														<th>Profile</th>
-														<th>VatNo.</th>
-														<th>Created</th>
-														<th>Status</th>
+														<th>Name</th>
+														<th>Description</th>
+														<th>Group</th>
+														<th>Amount</th>
+														<th>Date</th>
+														<th></th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td>Jacob</td>
-														<td>53275531</td>
-														<td>12 May 2017</td>
-														<td>
-															<label class='badge badge-danger'>Pending</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Messsy</td>
-														<td>53275532</td>
-														<td>15 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>John</td>
-														<td>53275533</td>
-														<td>14 May 2017</td>
-														<td>
-															<label class='badge badge-info'>Fixed</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Peter</td>
-														<td>53275534</td>
-														<td>16 May 2017</td>
-														<td>
-															<label class='badge badge-success'>
-																Completed
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Dave</td>
-														<td>53275535</td>
-														<td>20 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
+													{deletedTransaction?.map((entry, _i) => {
+														return (
+															<tr key={_i}>
+																<td>{entry?.name}</td>
+																<td>{entry?.description}</td>
+																<td>{entry?.group}</td>
+																<CurrencyFormat
+																	renderText={(value) => <td>{value}</td>}
+																	decimalScale={2}
+																	value={entry?.amount}
+																	displayType='text'
+																	thousandSeparator={true}
+																	prefix={'$'}
+																/>
+																<td>
+																	{moment(entry?.date).format('D MMM YYYY')}
+																</td>
+																<td>
+																	<button
+																		type='button'
+																		class='btn btn-inverse-success btn-fw'
+																		onClick={() => restoreEntry(entry?._id)}>
+																		Restore
+																	</button>
+																	<button
+																		type='button'
+																		class='btn btn-inverse-danger btn-fw mx-1'
+																		onClick={() => deleteEntry(entry?._id)}>
+																		Delete
+																	</button>
+																</td>
+															</tr>
+														);
+													})}
 												</tbody>
 											</table>
 										</div>

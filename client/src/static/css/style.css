@@ -14095,8 +14095,8 @@ code {
     height: 36px;
     border-radius: 4px;
     text-align: center;
-    -webkit-box-shadow: 0px 3px 8.3px 0.7px rgba(163, 93, 255, 0.35);
-    box-shadow: 0px 3px 8.3px 0.7px rgba(163, 93, 255, 0.35);
+    -webkit-box-shadow: 0px 3px 8.3px 0.7px lightblue;
+    box-shadow: 0px 3px 8.3px 0.7px lightblue;
 }
 
 .page-title .page-title-icon i {
@@ -14404,6 +14404,12 @@ code {
     background: -moz-linear-gradient(302deg, rgba(2, 0, 36, 1) 0%, rgba(0, 133, 255, 0.9822303921568627) 0%, rgba(45, 205, 219, 1) 78%)!important;
     background: -webkit-linear-gradient(302deg, rgba(2, 0, 36, 1) 0%, rgba(0, 133, 255, 0.9822303921568627) 0%, rgba(45, 205, 219, 1) 78%)!important;
     background: linear-gradient(302deg, rgba(2, 0, 36, 1) 0%, rgba(0, 133, 255, 0.9822303921568627) 0%, rgba(45, 205, 219, 1) 78%)!important;
+}
+
+.bg-gradient-red {
+    background: -moz-linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(252, 184, 184, 1) 0%, rgba(255, 0, 0, 1) 100%)!important;
+    background: -webkit-linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(252, 184, 184, 1) 0%, rgba(255, 0, 0, 1) 100%)!important;
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(252, 184, 184, 1) 0%, rgba(255, 0, 0, 1) 100%)!important;
 }
 
 .bg-gradient-light {
@@ -18809,11 +18815,13 @@ dl li {
 .content-wrapper {
     background: #e6f3ff;
     padding: 2.75rem 2.25rem;
+    padding-bottom: 0!important;
     width: 100%;
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
     height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar__icons {
@@ -18835,6 +18843,19 @@ svg.title__icon {
 
 .header__logo {
     object-fit: contain;
+}
+
+.bottomLink {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 30px;
+}
+
+.bottomLinkHomePage {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 15px;
+    padding-top: 15px;
 }
 
 

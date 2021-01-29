@@ -1,88 +1,68 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import CurrencyFormat from 'react-currency-format';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { selectUser } from './../../features/auth/authSlice';
+import TransactionService from './../../TransactionService';
+import {
+	selectRecentTransactions,
+	updateRecentTransactions,
+} from './../../features/transaction/transactionSlice';
 
 function Tables() {
+	const dispatch = useDispatch();
+	const user = useSelector(selectUser);
+	const transaction = useSelector(selectRecentTransactions);
+
+	useEffect(() => {
+		TransactionService.listRecentTransactions(user._id).then((data) => {
+			dispatch(
+				updateRecentTransactions({
+					data,
+				})
+			);
+		});
+	}, [transaction]);
 	return (
 		<div class='card'>
 			<div class='card-body'>
-				<h4 class='card-title'>Recent Tickets</h4>
+				<h4 class='card-title'>Recent Transactions</h4>
 				<div class='table-responsive'>
 					<table class='table'>
 						<thead>
 							<tr>
-								<th> Assignee </th>
-								<th> Subject </th>
-								<th> Status </th>
-								<th> Last Update </th>
-								<th> Tracking ID </th>
+								<th> Name </th>
+								<th> Description </th>
+								<th> Group </th>
+								<th> Amount </th>
+								<th> Date </th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									<img
-										src='assets/images/faces/face1.jpg'
-										class='mr-2'
-										alt='image'
-									/>{' '}
-									David Grey
-								</td>
-								<td> Fund is not recieved </td>
-								<td>
-									<label class='badge badge-gradient-success'>DONE</label>
-								</td>
-								<td> Dec 5, 2017 </td>
-								<td> WD-12345 </td>
-							</tr>
-							<tr>
-								<td>
-									<img
-										src='assets/images/faces/face2.jpg'
-										class='mr-2'
-										alt='image'
-									/>{' '}
-									Stella Johnson
-								</td>
-								<td> High loading time </td>
-								<td>
-									<label class='badge badge-gradient-warning'>PROGRESS</label>
-								</td>
-								<td> Dec 12, 2017 </td>
-								<td> WD-12346 </td>
-							</tr>
-							<tr>
-								<td>
-									<img
-										src='assets/images/faces/face3.jpg'
-										class='mr-2'
-										alt='image'
-									/>{' '}
-									Marina Michel
-								</td>
-								<td> Website down for one week </td>
-								<td>
-									<label class='badge badge-gradient-info'>ON HOLD</label>
-								</td>
-								<td> Dec 16, 2017 </td>
-								<td> WD-12347 </td>
-							</tr>
-							<tr>
-								<td>
-									<img
-										src='assets/images/faces/face4.jpg'
-										class='mr-2'
-										alt='image'
-									/>{' '}
-									John Doe
-								</td>
-								<td> Loosing control on server </td>
-								<td>
-									<label class='badge badge-gradient-danger'>REJECTED</label>
-								</td>
-								<td> Dec 3, 2017 </td>
-								<td> WD-12348 </td>
-							</tr>
+							{transaction?.map((entry, _i) => {
+								return (
+									<tr key={_i}>
+										<td>{entry?.name}</td>
+										<td>{entry?.description}</td>
+										<td>{entry?.group}</td>
+										<CurrencyFormat
+											renderText={(value) => <td>{value}</td>}
+											decimalScale={2}
+											value={entry?.amount}
+											displayType='text'
+											thousandSeparator={true}
+											prefix={'$'}
+										/>
+										<td>{moment(entry?.date).format('D MMM YYYY')}</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
+					<Link className='bottomLinkHomePage' to='/transaction'>
+						Check all transactions
+					</Link>
 				</div>
 			</div>
 		</div>

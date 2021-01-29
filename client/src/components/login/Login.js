@@ -26,7 +26,7 @@ const Login = (props) => {
 						isAuthenticated,
 					})
 				);
-				props.history.push('/');
+				// props.history.push('/');
 			} else {
 				console.log(message);
 				setMessage(message);
@@ -41,7 +41,7 @@ const Login = (props) => {
 						<div className='col-lg-4 mx-auto'>
 							<div className='auth-form-light text-left p-5'>
 								<div className='brand-logo'>
-									<img src={logo} />
+									<img src={logo} alt='logo' />
 								</div>
 								<h4>Hello! let's get started</h4>
 								<h6 className='font-weight-light'>Sign in to continue.</h6>

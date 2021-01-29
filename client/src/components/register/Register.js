@@ -25,7 +25,6 @@ const Register = (props) => {
 		e.preventDefault();
 		AuthService.register(registerUser).then((data) => {
 			const { message } = data;
-			console.log('message>>>', message);
 			setMessage(message);
 			if (!message.messageError) {
 				resetForm();
@@ -59,7 +58,7 @@ const Register = (props) => {
 						<div className='col-lg-4 mx-auto'>
 							<div className='auth-form-light text-left p-5'>
 								<div className='brand-logo'>
-									<img src={logo} />
+									<img src={logo} alt='logo' />
 								</div>
 								<h4>Hello! let's get you registered</h4>
 								<h6 className='font-weight-light'>

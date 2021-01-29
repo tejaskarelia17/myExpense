@@ -1,4 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { selectUser } from './../../features/auth/authSlice';
+import GroupService from './../../GroupService';
+import {
+	updateGroups,
+	selectGroups,
+} from './../../features/transaction/transactionSlice';
 
 //Import Components
 import Header from './../header/Header';
@@ -7,6 +15,41 @@ import Icon from '@mdi/react';
 import { mdiClipboardMultiple } from '@mdi/js';
 
 function Group() {
+	const user = useSelector(selectUser);
+	const dispatch = useDispatch();
+	const groups = useSelector(selectGroups);
+	const [message, setMessage] = useState('');
+	const [newGroup, setNewGroup] = useState({ user_id: user._id });
+
+	const onChangeHandler = (e) => {
+		setNewGroup({ ...newGroup, [e.target.name]: e.target.value });
+	};
+
+	const formSubmitHandler = (e) => {
+		e.preventDefault();
+		GroupService.addGroup(newGroup).then((data) => {
+			const { message } = data;
+			setMessage(message);
+			resetForm();
+		});
+	};
+	const resetForm = () => {
+		setNewGroup({
+			name: '',
+			description: '',
+		});
+		document.getElementById('addGroupForm').reset();
+	};
+	useEffect(() => {
+		GroupService.listIndividualGroups(user._id).then((data) => {
+			dispatch(
+				updateGroups({
+					data,
+				})
+			);
+		});
+	}, [groups]);
+
 	return (
 		<div class='container-scroller'>
 			<Header />
@@ -32,59 +75,43 @@ function Group() {
 								<div class='col-md-6 grid-margin stretch-card'>
 									<div class='card'>
 										<div class='card-body'>
-											<h4 class='card-title'>Default form</h4>
-											<p class='card-description'> Basic form layout </p>
-											<form class='forms-sample'>
+											<h4 class='card-title'>Add Group</h4>
+											<p class='card-description'></p>
+											<form
+												onSubmit={formSubmitHandler}
+												id='addGroupForm'
+												class='forms-sample'>
 												<div class='form-group'>
-													<label for='exampleInputUsername1'>Username</label>
+													<label htmlFor='name'>Group Name</label>
 													<input
 														type='text'
 														class='form-control'
-														id='exampleInputUsername1'
-														placeholder='Username'
+														id='name'
+														name='name'
+														placeholder='Group Name'
+														onChange={onChangeHandler}
 													/>
 												</div>
 												<div class='form-group'>
-													<label for='exampleInputEmail1'>Email address</label>
+													<label htmlFor='description'>Group Description</label>
 													<input
-														type='email'
+														type='text'
 														class='form-control'
-														id='exampleInputEmail1'
-														placeholder='Email'
+														id='description'
+														name='description'
+														placeholder='Group Description'
+														onChange={onChangeHandler}
 													/>
 												</div>
-												<div class='form-group'>
-													<label for='exampleInputPassword1'>Password</label>
-													<input
-														type='password'
-														class='form-control'
-														id='exampleInputPassword1'
-														placeholder='Password'
-													/>
-												</div>
-												<div class='form-group'>
-													<label for='exampleInputConfirmPassword1'>
-														Confirm Password
-													</label>
-													<input
-														type='password'
-														class='form-control'
-														id='exampleInputConfirmPassword1'
-														placeholder='Password'
-													/>
-												</div>
-												<div class='form-check form-check-flat form-check-primary'>
-													<label class='form-check-label'>
-														<input type='checkbox' class='form-check-input' />{' '}
-														Remember me{' '}
-													</label>
-												</div>
+
 												<button
 													type='submit'
 													class='btn btn-gradient-primary mr-2'>
 													Submit
 												</button>
-												<button class='btn btn-light'>Cancel</button>
+												<button type='reset' class='btn btn-light'>
+													Cancel
+												</button>
 											</form>
 										</div>
 									</div>
@@ -92,67 +119,28 @@ function Group() {
 								<div class='col-lg-6 grid-margin stretch-card'>
 									<div class='card'>
 										<div class='card-body'>
-											<h4 class='card-title'>Basic Table</h4>
-											<p class='card-description'>
-												{' '}
-												Add class <code>.table</code>
-											</p>
+											<h4 class='card-title'>All Groups</h4>
+											<p class='card-description'></p>
 											<table class='table'>
 												<thead>
 													<tr>
-														<th>Profile</th>
-														<th>VatNo.</th>
+														<th>Name</th>
+														<th>Description</th>
 														<th>Created</th>
-														<th>Status</th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td>Jacob</td>
-														<td>53275531</td>
-														<td>12 May 2017</td>
-														<td>
-															<label class='badge badge-danger'>Pending</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Messsy</td>
-														<td>53275532</td>
-														<td>15 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>John</td>
-														<td>53275533</td>
-														<td>14 May 2017</td>
-														<td>
-															<label class='badge badge-info'>Fixed</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Peter</td>
-														<td>53275534</td>
-														<td>16 May 2017</td>
-														<td>
-															<label class='badge badge-success'>
-																Completed
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Dave</td>
-														<td>53275535</td>
-														<td>20 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
+													{groups?.map((group, _i) => {
+														return (
+															<tr key={_i}>
+																<td>{group?.name}</td>
+																<td>{group?.description}</td>
+																<td>
+																	{moment(group?.date).format('D MMM YYYY')}
+																</td>
+															</tr>
+														);
+													})}
 												</tbody>
 											</table>
 										</div>

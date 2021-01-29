@@ -23,7 +23,7 @@ function Sidebar() {
 		});
 	};
 	return (
-		<nav class='sidebar sidebar-offcanvas ' id='sidebar'>
+		<nav class='sidebar sidebar-offcanvas' id='sidebarIcons'>
 			<ul class='nav'>
 				<li class='nav-item nav__firstIcon '>
 					<Link

@@ -12,12 +12,12 @@ app.use(express.json());
 //Routes
 const userRoute = require('./routes/users');
 app.use('/api/user', userRoute);
-// const transactionRoute = require('./routes/transaction');
-// app.use('/transaction', transactionRoute);
-// const groupRoute = require('./routes/group');
-// app.use('/group', groupRoute);
-// const dashboardRoute = require('./routes/dashboard');
-// app.use('/dashboard', dashboardRoute);
+const transactionRoute = require('./routes/transaction');
+app.use('/api/transaction', transactionRoute);
+const groupRoute = require('./routes/group');
+app.use('/api/group', groupRoute);
+const dashboardRoute = require('./routes/dashboard');
+app.use('/api/dashboard', dashboardRoute);
 
 mongoose.connect(
 	mongoUri,
@@ -28,5 +28,5 @@ mongoose.connect(
 );
 
 app.listen(PORT, () => {
-	console.log('Server started 🔥 on port 👉', PORT);
+	console.log('Server 🔥fired up on port 👉', PORT);
 });

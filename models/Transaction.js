@@ -18,7 +18,7 @@ const TransactionSchema = mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	group_name: {
+	group: {
 		type: String,
 		required: true,
 	},

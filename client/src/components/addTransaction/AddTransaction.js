@@ -1,12 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import CurrencyFormat from 'react-currency-format';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
+import { selectUser } from './../../features/auth/authSlice';
+import TransactionService from './../../TransactionService';
+import GroupService from './../../GroupService';
+import {
+	updateTransactions,
+	selectTransactions,
+	updateGroups,
+	selectGroups,
+} from './../../features/transaction/transactionSlice';
 
 //Import Components
 import Header from './../header/Header';
 import Sidebar from './../sidebar/Sidebar';
 import Icon from '@mdi/react';
 import { mdiCurrencyUsd } from '@mdi/js';
+import { Link } from 'react-router-dom';
 
 function AddTransaction() {
+	const user = useSelector(selectUser);
+	const dispatch = useDispatch();
+	const groups = useSelector(selectGroups);
+	const transaction = useSelector(selectTransactions);
+	const [message, setMessage] = useState('');
+	const [newTransaction, setNewTransaction] = useState({ user_id: user._id });
+
+	const onChangeHandler = (e) => {
+		setNewTransaction({ ...newTransaction, [e.target.name]: e.target.value });
+	};
+
+	const formSubmitHandler = (e) => {
+		e.preventDefault();
+		TransactionService.addTransaction(newTransaction).then((data) => {
+			const { message } = data;
+			setMessage(message);
+			resetForm();
+		});
+	};
+	const resetForm = () => {
+		setNewTransaction({
+			name: '',
+			description: '',
+			amount: '',
+		});
+		document.getElementById('addTransactionForm').reset();
+	};
+
+	useEffect(() => {
+		GroupService.listIndividualGroups(user._id).then((data) => {
+			dispatch(
+				updateGroups({
+					data,
+				})
+			);
+		});
+		TransactionService.listIndividualTransactions(user._id).then((data) => {
+			dispatch(
+				updateTransactions({
+					data,
+				})
+			);
+		});
+	}, [transaction]);
 	return (
 		<div className='container-scroller'>
 			<Header />
@@ -21,140 +78,128 @@ function AddTransaction() {
 										<Icon
 											className='title__icon'
 											path={mdiCurrencyUsd}
-											title='Dashboard'
+											title='Transaction'
 											size={0.8}
 										/>
 									</span>
-									Add Transaction
+									Transactions
 								</h3>
 							</div>
 							<div className='row'>
-								<div class='col-md-6 grid-margin stretch-card'>
-									<div class='card'>
-										<div class='card-body'>
-											<h4 class='card-title'>Default form</h4>
-											<p class='card-description'> Basic form layout </p>
-											<form class='forms-sample'>
-												<div class='form-group'>
-													<label for='exampleInputUsername1'>Username</label>
+								<div className='col-md-6 grid-margin stretch-card'>
+									<div className='card'>
+										<div className='card-body'>
+											<h4 className='card-title'>Add bill</h4>
+											<p className='card-description'></p>
+											<form
+												onSubmit={formSubmitHandler}
+												id='addTransactionForm'
+												className='forms-sample'>
+												<div className='form-group'>
+													<label htmlFor='name'>Name</label>
 													<input
 														type='text'
-														class='form-control'
-														id='exampleInputUsername1'
-														placeholder='Username'
+														onChange={onChangeHandler}
+														className='form-control'
+														id='name'
+														name='name'
+														placeholder='Name'
 													/>
 												</div>
-												<div class='form-group'>
-													<label for='exampleInputEmail1'>Email address</label>
+												<div className='form-group'>
+													<label htmlFor='amount'>Amount</label>
 													<input
-														type='email'
-														class='form-control'
-														id='exampleInputEmail1'
-														placeholder='Email'
+														type='number'
+														onChange={onChangeHandler}
+														className='form-control'
+														id='amount'
+														name='amount'
+														placeholder='Amount'
 													/>
 												</div>
-												<div class='form-group'>
-													<label for='exampleInputPassword1'>Password</label>
+												<div className='form-group'>
+													<label htmlFor='group'>Group</label>
+													<select
+														onChange={onChangeHandler}
+														class='form-control'
+														name='group'
+														id='group'>
+														<option key='default' value=''>
+															Select Group
+														</option>
+														{groups.map((group, _i) => {
+															return (
+																<option key={_i} value={group.name}>
+																	{group.name}
+																</option>
+															);
+														})}
+													</select>
+												</div>
+												<div className='form-group'>
+													<label htmlFor='description'>Description</label>
 													<input
-														type='password'
-														class='form-control'
-														id='exampleInputPassword1'
-														placeholder='Password'
+														type='text'
+														onChange={onChangeHandler}
+														className='form-control'
+														id='description'
+														name='description'
+														placeholder='Description'
 													/>
-												</div>
-												<div class='form-group'>
-													<label for='exampleInputConfirmPassword1'>
-														Confirm Password
-													</label>
-													<input
-														type='password'
-														class='form-control'
-														id='exampleInputConfirmPassword1'
-														placeholder='Password'
-													/>
-												</div>
-												<div class='form-check form-check-flat form-check-primary'>
-													<label class='form-check-label'>
-														<input type='checkbox' class='form-check-input' />{' '}
-														Remember me{' '}
-													</label>
 												</div>
 												<button
 													type='submit'
-													class='btn btn-gradient-primary mr-2'>
+													className='btn btn-gradient-primary mr-2'>
 													Submit
 												</button>
-												<button class='btn btn-light'>Cancel</button>
+												<button type='reset' className='btn btn-light'>
+													Cancel
+												</button>
 											</form>
 										</div>
 									</div>
 								</div>
-								<div class='col-lg-6 grid-margin stretch-card'>
-									<div class='card'>
-										<div class='card-body'>
-											<h4 class='card-title'>Basic Table</h4>
-											<p class='card-description'>
-												{' '}
-												Add class <code>.table</code>
-											</p>
-											<table class='table'>
+								<div className='col-lg-6 grid-margin stretch-card'>
+									<div className='card'>
+										<div className='card-body'>
+											<h4 className='card-title'>Latest Transactions</h4>
+											<p className='card-description'></p>
+											<table className='table'>
 												<thead>
 													<tr>
-														<th>Profile</th>
-														<th>VatNo.</th>
-														<th>Created</th>
-														<th>Status</th>
+														<th>Name</th>
+														<th>Description</th>
+														<th>Group</th>
+														<th>Amount</th>
+														<th>Date</th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td>Jacob</td>
-														<td>53275531</td>
-														<td>12 May 2017</td>
-														<td>
-															<label class='badge badge-danger'>Pending</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Messsy</td>
-														<td>53275532</td>
-														<td>15 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>John</td>
-														<td>53275533</td>
-														<td>14 May 2017</td>
-														<td>
-															<label class='badge badge-info'>Fixed</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Peter</td>
-														<td>53275534</td>
-														<td>16 May 2017</td>
-														<td>
-															<label class='badge badge-success'>
-																Completed
-															</label>
-														</td>
-													</tr>
-													<tr>
-														<td>Dave</td>
-														<td>53275535</td>
-														<td>20 May 2017</td>
-														<td>
-															<label class='badge badge-warning'>
-																In progress
-															</label>
-														</td>
-													</tr>
+													{transaction?.map((entry, _i) => {
+														return (
+															<tr key={_i}>
+																<td>{entry?.name}</td>
+																<td>{entry?.description}</td>
+																<td>{entry?.group}</td>
+																<CurrencyFormat
+																	renderText={(value) => <td>{value}</td>}
+																	decimalScale={2}
+																	value={entry?.amount}
+																	displayType='text'
+																	thousandSeparator={true}
+																	prefix={'$'}
+																/>
+																<td>
+																	{moment(entry?.date).format('D MMM YYYY')}
+																</td>
+															</tr>
+														);
+													})}
 												</tbody>
 											</table>
+											<Link className='bottomLink' to='/transaction'>
+												Check all transactions
+											</Link>
 										</div>
 									</div>
 								</div>
