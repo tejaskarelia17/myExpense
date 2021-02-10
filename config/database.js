@@ -5,3 +5,7 @@ module.exports = {
     database: 'mongodb://localhost:27017/myExpense',
     secret: 'projectHCI'
 };
+
+/**
+   End of File
+   */
