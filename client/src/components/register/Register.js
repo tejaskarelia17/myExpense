@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import { register } from './../../features/auth/authSlice';
 import AuthService from './../../AuthService';
 
@@ -27,10 +28,13 @@ const Register = (props) => {
 			const { message } = data;
 			setMessage(message);
 			if (!message.messageError) {
+				Swal.fire('Registered!', message.messageBody, 'success');
 				resetForm();
 				timerID = setTimeout(() => {
 					props.history.push('/');
-				}, 2000);
+				}, 1000);
+			} else {
+				Swal.fire('Ops...', message.messageBody, 'error');
 			}
 		});
 	};

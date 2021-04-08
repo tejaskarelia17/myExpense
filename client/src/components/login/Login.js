@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from './../../features/auth/authSlice';
 import AuthService from './../../AuthService';
@@ -18,6 +19,7 @@ const Login = (props) => {
 	const formSubmitHandler = (e) => {
 		e.preventDefault();
 		AuthService.login(loginUser).then((data) => {
+			console.log(data);
 			const { isAuthenticated, user, message } = data;
 			if (isAuthenticated) {
 				dispatch(
@@ -26,10 +28,11 @@ const Login = (props) => {
 						isAuthenticated,
 					})
 				);
-				// props.history.push('/');
+				Swal.fire('Authenticated!', '', 'success');
 			} else {
-				console.log(message);
 				setMessage(message);
+
+				Swal.fire('Ops...', 'Something went wrong!', 'error');
 			}
 		});
 	};

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 import { selectUser } from './../../features/auth/authSlice';
 import TransactionService from './../../TransactionService';
 import {
@@ -19,13 +20,45 @@ function Recycle() {
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
 	const deletedTransaction = useSelector(selectDeletedTransactions);
-	const [message, setMessage] = useState('');
 
 	const restoreEntry = (e) => {
-		TransactionService.restoreTransactions(e).then((data) => {});
+		Swal.fire({
+			title: 'Restore?',
+			text: 'Do you want to restore this expense?',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Yes, restore it!',
+			cancelButtonText: 'Nevermind, return back!',
+		}).then((result) => {
+			if (result.value) {
+				TransactionService.restoreTransactions(e).then((data) => {});
+				Swal.fire('Restored!', 'The expense has been restored.', 'success');
+			} else if (result.dismiss === Swal.DismissReason.cancel) {
+				Swal.fire('Aborted!', 'The expense is still in trash:P', 'error');
+			}
+		});
 	};
 	const deleteEntry = (e) => {
-		TransactionService.deleteTransactionsPermanently(e).then((data) => {});
+		Swal.fire({
+			title: 'Are you sure?',
+			text:
+				'Do you really want to PERMANENTLY delete this expense! It cannot be recovered!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'No, keep it',
+		}).then((result) => {
+			if (result.value) {
+				TransactionService.deleteTransactionsPermanently(e).then((data) => {});
+				Swal.fire(
+					'Deleted!',
+					'The expense has been permanently deleted.',
+					'success'
+				);
+			} else if (result.dismiss === Swal.DismissReason.cancel) {
+				Swal.fire('Aborted!', 'The expense is still in trash:P', 'error');
+			}
+		});
 	};
 
 	useEffect(() => {

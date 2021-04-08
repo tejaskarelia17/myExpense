@@ -90,6 +90,7 @@ function Group() {
 														name='name'
 														placeholder='Group Name'
 														onChange={onChangeHandler}
+														required
 													/>
 												</div>
 												<div class='form-group'>
@@ -101,6 +102,7 @@ function Group() {
 														name='description'
 														placeholder='Group Description'
 														onChange={onChangeHandler}
+														required
 													/>
 												</div>
 

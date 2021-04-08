@@ -18,16 +18,23 @@ import Tables from './../tables/Tables';
 function Main() {
 	const user = useSelector(selectUser);
 	const [weeklyExpense, setNewWeeklyExpense] = useState('');
-	const [expensiveGroup, setExpensiveGroup] = useState('');
+	const [expensiveGroup, setExpensiveGroup] = useState({
+		_id: 'Not Applicable',
+		TotalAmount: '0',
+	});
 	const [totalExpense, setTotalExpense] = useState('');
 	const [cardClass, setCardClass] = useState('');
 	useEffect(() => {
 		DashboardService.weeklyExpense(user._id).then((data) => {
 			setNewWeeklyExpense(data[0]?.TotalAmount);
 		});
-		DashboardService.expensiveGroup(user._id).then((data) => {
-			setExpensiveGroup(data[0]);
-		});
+		DashboardService.expensiveGroup(user._id)
+			.then((data) => {
+				setExpensiveGroup(data[0]);
+			})
+			.catch(() => {
+				console.log(typeof expensiveGroup);
+			});
 		DashboardService.totalExpense(user._id).then((data) => {
 			setTotalExpense(data[0]?.TotalAmount);
 		});
@@ -63,8 +70,8 @@ function Main() {
 				<div class='col-md-4 stretch-card grid-margin'>
 					<TopWidget
 						title='Most Expensive Group'
-						value={expensiveGroup.TotalAmount}
-						subValue={expensiveGroup._id}
+						value={expensiveGroup?.TotalAmount}
+						subValue={expensiveGroup?._id}
 						icon={mdiChartLine}
 					/>
 				</div>

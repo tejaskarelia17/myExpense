@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 import { selectUser } from './../../features/auth/authSlice';
 import TransactionService from './../../TransactionService';
 import GroupService from './../../GroupService';
@@ -36,6 +37,11 @@ function AddTransaction() {
 		TransactionService.addTransaction(newTransaction).then((data) => {
 			const { message } = data;
 			setMessage(message);
+			{
+				message.messageError
+					? Swal.fire('Oops...', message.messageBody, 'error')
+					: Swal.fire('Yaaayy', message.messageBody, 'success');
+			}
 			resetForm();
 		});
 	};

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '@mdi/react';
 import { mdiHome } from '@mdi/js';
-import { mdiClipboardMultiple } from '@mdi/js';
+import { mdiCurrencyUsd, mdiClipboardMultiple } from '@mdi/js';
 import { mdiDelete } from '@mdi/js';
 import { mdiLogout } from '@mdi/js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -37,6 +37,22 @@ function Sidebar() {
 							path={mdiHome}
 							className='sidebar__icons'
 							title='Dashboard'
+							size={0.8}
+						/>
+					</Link>
+				</li>
+				<li class='nav-item'>
+					<Link
+						class='nav-link'
+						data-toggle='collapse'
+						to='/transaction'
+						aria-expanded='false'
+						aria-controls='ui-basic'>
+						<span class='menu-title'>Transactions</span>
+						<Icon
+							path={mdiCurrencyUsd}
+							className='sidebar__icons'
+							title='Transactions'
 							size={0.8}
 						/>
 					</Link>

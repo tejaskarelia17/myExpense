@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 import { selectUser } from './../../features/auth/authSlice';
 import TransactionService from './../../TransactionService';
 import GroupService from './../../GroupService';
@@ -23,7 +24,21 @@ function Transaction() {
 	const transaction = useSelector(selectTransactions);
 
 	const deleteEntry = (e) => {
-		TransactionService.deleteTransactions(e).then((data) => {});
+		Swal.fire({
+			title: 'Are you sure?',
+			text: 'Do you really want to delete this expense',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'No, keep it',
+		}).then((result) => {
+			if (result.value) {
+				TransactionService.deleteTransactions(e).then((data) => {});
+				Swal.fire('Deleted!', 'The expense has been deleted.', 'success');
+			} else if (result.dismiss === Swal.DismissReason.cancel) {
+				Swal.fire('Aborted!', '', 'error');
+			}
+		});
 	};
 
 	useEffect(() => {
@@ -42,6 +57,7 @@ function Transaction() {
 			);
 		});
 	}, [transaction]);
+
 	return (
 		<div className='container-scroller'>
 			<Header />
