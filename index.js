@@ -17,7 +17,7 @@ app.get('/*', (req, res) => {
 });
 
 const mongoUri = require('./config/db');
-const PORT = 5000;
+const PORT = process.env.PORT || 5050;
 
 app.use(cookieParser());
 app.use(express.json());
