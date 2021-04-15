@@ -1,10 +1,23 @@
 const express = require('express'),
 	mongoose = require('mongoose'),
+	bodyParser = require('body-parser'),
+	path = require('path'),
+	cors = require('cors'),
 	cookieParser = require('cookie-parser');
+
+const app = express();
+app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
+app.get('/*', (req, res) => {
+	res.sendFile(path.join(__dirname, '/client/build/index.html'));
+	// resizeBy.send('welcome to my form');
+});
 
 const mongoUri = require('./config/db');
 const PORT = 5000;
-const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
