@@ -18,7 +18,7 @@ app.get('/*', (req, res) => {
 	// resizeBy.send('welcome to my form');
 });
 
-const mongoUri = require('./config/db');
+const mongoUri = process.env.MONGO_URI || require('./config/db');
 const PORT = process.env.PORT || 5050;
 
 app.use(cookieParser());

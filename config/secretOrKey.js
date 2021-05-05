@@ -1,3 +1,3 @@
-const secretOrKey = process.env.SECRET_OR_KEY;
+const secretOrKey = 'Ninja2019';
 
 module.exports = secretOrKey;

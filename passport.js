@@ -5,6 +5,10 @@ const passport = require('passport'),
 const User = require('./models/User');
 const secretOrKey = require('./config/secretOrKey');
 
+if (process.env.NODE_ENV === 'production') {
+	const secretOrKey = 'process.env.SECRET_OR_KEY';
+}
+
 const cookieExtractor = (request) => {
 	let token = null;
 	if (request && request.cookies) {
