@@ -3,10 +3,10 @@ const passport = require('passport'),
 	JwtStrategy = require('passport-jwt').Strategy;
 
 const User = require('./models/User');
-const secretOrKey = require('./config/secretOrKey');
+// const secretOrKey = require('./config/secretOrKey');
 
 if (process.env.NODE_ENV === 'production') {
-	const secretOrKey = 'process.env.SECRET_OR_KEY';
+	const secretOrKey = process.env.SECRET_OR_KEY;
 }
 
 const cookieExtractor = (request) => {
