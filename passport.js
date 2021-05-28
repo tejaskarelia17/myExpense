@@ -2,7 +2,7 @@ const passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy,
 	JwtStrategy = require('passport-jwt').Strategy;
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const User = require('./models/User');
 // const secretOrKey = require('./config/secretOrKey');

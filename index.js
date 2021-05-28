@@ -5,7 +5,7 @@ const express = require('express'),
 	cors = require('cors'),
 	cookieParser = require('cookie-parser');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const app = express();
 app.use(express.static(path.join(__dirname, '/client/build')));
