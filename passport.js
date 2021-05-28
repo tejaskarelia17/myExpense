@@ -1,13 +1,16 @@
 const passport = require('passport'),
 	LocalStrategy = require('passport-local').Strategy,
 	JwtStrategy = require('passport-jwt').Strategy;
+
 require('dotenv').config();
+
 const User = require('./models/User');
 // const secretOrKey = require('./config/secretOrKey');
-const secretOrKey = process.env.SECRET_OR_KEY;
 
 if (process.env.NODE_ENV === 'production') {
-	const secretOrKey = process.env.SECRET_OR_KEY;
+	const secretOrKey = 'Test';
+	console.log(process.env.SECRET_OR_KEY);
+	console.log('Prod');
 }
 
 const cookieExtractor = (request) => {
