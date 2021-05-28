@@ -6,7 +6,7 @@ const JWT = require('jsonwebtoken');
 const User = require('./../models/User');
 // const secretOrKey = require('./../config/secretOrKey');
 
-const secretOrKey = 'Ninja';
+const secretOrKey = process.env.SECRET_OR_KEY;
 
 const signToken = (userID) => {
 	return JWT.sign(
