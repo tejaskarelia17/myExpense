@@ -4,7 +4,9 @@ const passport = require('passport'),
 	passportConfig = require('./../passport');
 const JWT = require('jsonwebtoken');
 const User = require('./../models/User');
-const secretOrKey = require('./../config/secretOrKey');
+// const secretOrKey = require('./../config/secretOrKey');
+
+const secretOrKey = 'Ninja';
 
 const signToken = (userID) => {
 	return JWT.sign(
