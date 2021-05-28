@@ -43,5 +43,6 @@ mongoose.connect(
 );
 
 app.listen(PORT, () => {
+	console.log(process.env.MONGO_URI);
 	console.log('Server 🔥fired up on port 👉', PORT);
 });
